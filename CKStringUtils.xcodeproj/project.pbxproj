@@ -13,12 +13,12 @@
 		434B0094185CAE4600234974 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 434B0092185CAE4600234974 /* InfoPlist.strings */; };
 		434B0096185CAE4600234974 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 434B0095185CAE4600234974 /* main.m */; };
 		434B009A185CAE4600234974 /* CKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 434B0099185CAE4600234974 /* CKAppDelegate.m */; };
-		434B009C185CAE4600234974 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434B009B185CAE4600234974 /* Images.xcassets */; };
 		434B00A3185CAE4600234974 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434B00A2185CAE4600234974 /* XCTest.framework */; };
 		434B00A4185CAE4600234974 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434B0089185CAE4600234974 /* Foundation.framework */; };
 		434B00A5185CAE4600234974 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434B008D185CAE4600234974 /* UIKit.framework */; };
 		434B00AD185CAE4600234974 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 434B00AB185CAE4600234974 /* InfoPlist.strings */; };
 		434B00AF185CAE4600234974 /* CKStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 434B00AE185CAE4600234974 /* CKStringUtilsTests.m */; };
+		434B00BA185CAE5B00234974 /* CKStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 434B00B9185CAE5B00234974 /* CKStringUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,12 +42,13 @@
 		434B0097185CAE4600234974 /* CKStringUtils-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CKStringUtils-Prefix.pch"; sourceTree = "<group>"; };
 		434B0098185CAE4600234974 /* CKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKAppDelegate.h; sourceTree = "<group>"; };
 		434B0099185CAE4600234974 /* CKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKAppDelegate.m; sourceTree = "<group>"; };
-		434B009B185CAE4600234974 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		434B00A1185CAE4600234974 /* CKStringUtilsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CKStringUtilsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		434B00A2185CAE4600234974 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		434B00AA185CAE4600234974 /* CKStringUtilsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CKStringUtilsTests-Info.plist"; sourceTree = "<group>"; };
 		434B00AC185CAE4600234974 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		434B00AE185CAE4600234974 /* CKStringUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKStringUtilsTests.m; sourceTree = "<group>"; };
+		434B00B8185CAE5B00234974 /* CKStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKStringUtils.h; sourceTree = "<group>"; };
+		434B00B9185CAE5B00234974 /* CKStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKStringUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +110,8 @@
 			children = (
 				434B0098185CAE4600234974 /* CKAppDelegate.h */,
 				434B0099185CAE4600234974 /* CKAppDelegate.m */,
-				434B009B185CAE4600234974 /* Images.xcassets */,
+				434B00B8185CAE5B00234974 /* CKStringUtils.h */,
+				434B00B9185CAE5B00234974 /* CKStringUtils.m */,
 				434B0090185CAE4600234974 /* Supporting Files */,
 			);
 			path = CKStringUtils;
@@ -221,7 +223,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				434B0094185CAE4600234974 /* InfoPlist.strings in Resources */,
-				434B009C185CAE4600234974 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +243,7 @@
 			files = (
 				434B009A185CAE4600234974 /* CKAppDelegate.m in Sources */,
 				434B0096185CAE4600234974 /* main.m in Sources */,
+				434B00BA185CAE5B00234974 /* CKStringUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
