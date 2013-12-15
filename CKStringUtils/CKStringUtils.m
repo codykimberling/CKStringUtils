@@ -50,9 +50,7 @@
         return YES;
     }
     
-    NSString *stringWithWhitespaceReplaced = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    return [self isEmpty:stringWithWhitespaceReplaced];
+    return [self isEmpty:[self stringWithWhitespacesStripped:string]];
 }
 
 #pragma mark - isNotBlank:
@@ -62,12 +60,57 @@
     return ![self isBlank:string];
 }
 
-#pragma mark - string: equalsString:
+#pragma mark - isWhitespace:
 
-+ (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2
++ (BOOL)isWhitespace:(NSString *)string
 {
-    if([self isNil:string1] && [self isNil:string2]){
+    if([self isEmpty:string]){
+        return NO;
+    }
+    return ([self stringWithWhitespacesStripped:string].length == 0);
+}
+
+#pragma mark - isAllLowerCase:
+
++ (BOOL)isAllLowerCase:(NSString *)string
+{
+    if([CKStringUtils isBlank:string]){
+        return NO;
+    }
+    return ([string rangeOfCharacterFromSet:self.lowerCaseInvertedSet].location == NSNotFound);
+}
+
+#pragma mark - isAllUpperCase:
+
++ (BOOL)isAllUpperCase:(NSString *)string
+{
+    if([CKStringUtils isBlank:string]){
+        return NO;
+    }
+    return ([string rangeOfCharacterFromSet:self.upperCaseInvertedSet].location == NSNotFound);
+}
+
+#pragma mark - isAlpha:
+
++ (BOOL)isAlpha:(NSString *)string
+{
+    if([CKStringUtils isBlank:string]){
+        return NO;
+    }
+    
+    return ([string rangeOfCharacterFromSet:self.lowerAndUpperCaseInvertedSet].location == NSNotFound);
+}
+
+#pragma mark - string: equalsString: ignoreCase:
+
++ (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase
+{
+    if(string1 == string2){
         return YES;
+    }
+    
+    if(ignoreCase){
+        return [string1.lowercaseString isEqualToString:string2.lowercaseString];
     }
     
     return [string1 isEqualToString:string2];
@@ -97,5 +140,50 @@
     }
     return string;
 }
+
+#pragma mark - Helpers
+
++ (NSString *)stringWithWhitespacesStripped:(NSString *)string
+{
+    return [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+
++ (NSCharacterSet *)lowerCaseInvertedSet
+{
+    return [NSCharacterSet.lowercaseLetterCharacterSet invertedSet];
+}
+
++ (NSCharacterSet *)upperCaseInvertedSet
+{
+    return  [NSCharacterSet.uppercaseLetterCharacterSet invertedSet];
+}
+
++ (NSCharacterSet *)lowerCaseSet
+{
+    return NSCharacterSet.lowercaseLetterCharacterSet;
+}
+
++ (NSCharacterSet *)upperCaseSet
+{
+    return  NSCharacterSet.uppercaseLetterCharacterSet;
+}
+
++ (NSCharacterSet *)lowerAndUpperCaseSet
+{
+    NSMutableCharacterSet *lowerAndUpperSet = self.lowerCaseSet.mutableCopy;
+    [lowerAndUpperSet formUnionWithCharacterSet:self.upperCaseSet];
+    
+    return lowerAndUpperSet;
+}
+
++ (NSCharacterSet *)lowerAndUpperCaseInvertedSet
+{
+    NSMutableCharacterSet *lowerAndUpperSet = self.lowerCaseSet.mutableCopy;
+    [lowerAndUpperSet formUnionWithCharacterSet:self.upperCaseSet];
+    
+    return [lowerAndUpperSet invertedSet];
+}
+
+
 
 @end

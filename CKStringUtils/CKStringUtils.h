@@ -86,18 +86,67 @@
 
 + (BOOL)isNotBlank:(NSString *)string;
 
-#pragma mark - string: equalsString:
+#pragma mark - isWhitespace
 
 /**
- *  Compares strings
+ *  Checks to see if string contains only whitespace.
  *
- *  @param string1 first string
- *  @param string2 second string
+ *  @param string string to check
  *
- *  @return returns YES if strings are equal (case-sensitive) or if both strings are nil.  Returns NO otherwise.
+ *  @return retruns YES if string only contains whitespace.  Returns NO otherwise.
  */
 
-+ (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2;
++ (BOOL)isWhitespace:(NSString *)string;
+
+#pragma mark - isAllLowerCase:
+
+/**
+ *  Checks string to verify all characters are lower-case
+ *
+ *  @param string string to check
+ *
+ *  @return returns YES if and only if every character in string is a lower-case value.  Returns NO otherwise.
+ */
+
++ (BOOL)isAllLowerCase:(NSString *)string;
+
+#pragma mark - isAllUpperCase:
+
+/**
+ *  Checks string to verify all characters are upper-case
+ *
+ *  @param string string to check
+ *
+ *  @return returns YES if and only if every character in string is an upper-case value.  Returns NO otherwise.
+ */
+
++ (BOOL)isAllUpperCase:(NSString *)string;
+
+#pragma mark - isAlpha:
+
+/**
+ *  Checks string to verify all characters are alpha values
+ *
+ *  @param string stromg tp cjecl
+ *
+ *  @return returns YES if and only if every character in string is an alpha value.  Returns NO otherwise.
+ */
+
++ (BOOL)isAlpha:(NSString *)string;
+
+#pragma mark - string: equalsString: ignoreCase:
+
+/**
+ *  Compares strings for equality
+ *
+ *  @param string1    first string
+ *  @param string2    second string
+ *  @param ignoreCase YES to case-insensitive compare strings
+ *
+ *  @return returns YES if strings are equal (dependingon ignoreCase BOOL) or if both strings are nil.  Returns NO otherwise.
+ */
+
++ (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase;
 
 #pragma mark - abbreviate: maxWidth
 
