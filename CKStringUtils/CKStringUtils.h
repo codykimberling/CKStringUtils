@@ -41,7 +41,7 @@
 #pragma mark - isEmpty:
 
 /**
- *  Checks for an empty value for string
+ *  Checks for an empty value for string.
  *
  *  @param string string to check for emtpy value
  *
@@ -53,7 +53,7 @@
 #pragma mark - isNotEmpty:
 
 /**
- *  Checks for an empty value for string
+ *  Checks for an empty value for string.
  *
  *  @param string string to check for emtpy value
  *
@@ -65,7 +65,7 @@
 #pragma mark - isBlank:
 
 /**
- *  Checks for a blank value for string
+ *  Checks for a blank value for string.
  *
  *  @param string string to check for blank value
  *
@@ -77,7 +77,7 @@
 #pragma mark - isNotBlank:
 
 /**
- *  Checks for a non-blank value for string
+ *  Checks for a non-blank value for string.
  *
  *  @param string string to check for blank value
  *
@@ -86,7 +86,7 @@
 
 + (BOOL)isNotBlank:(NSString *)string;
 
-#pragma mark - isWhitespace
+#pragma mark - isWhitespace:
 
 /**
  *  Checks to see if string contains only whitespace.
@@ -101,7 +101,7 @@
 #pragma mark - isAllLowerCase:
 
 /**
- *  Checks string to verify all characters are lower-case
+ *  Checks string to verify all characters are lower-case.
  *
  *  @param string string to check
  *
@@ -113,7 +113,7 @@
 #pragma mark - isAllUpperCase:
 
 /**
- *  Checks string to verify all characters are upper-case
+ *  Checks string to verify all characters are upper-case.
  *
  *  @param string string to check
  *
@@ -125,14 +125,38 @@
 #pragma mark - isAlpha:
 
 /**
- *  Checks string to verify all characters are alpha values
+ *  Checks string to verify all characters are alpha values.
  *
- *  @param string stromg tp cjecl
+ *  @param string string to check
  *
  *  @return returns YES if and only if every character in string is an alpha value.  Returns NO otherwise.
  */
 
 + (BOOL)isAlpha:(NSString *)string;
+
+#pragma mark - isNumeric:
+
+/**
+ *  Checks string to verify all characters are numeric values.
+ *
+ *  @param string string to check
+ *
+ *  @return returns YES if and only if every character in string is a numeric value.  Returns NO otherwise.
+ */
+
++ (BOOL)isNumeric:(NSString *)string;
+
+#pragma mark - isAlphanumeric:
+
+/**
+ *  Checks string to verify all characters are alphanumeric values.
+ *
+ *  @param string string to check
+ *
+ *  @return returns YES if and only if every character in string is an alphanumeric value.  Returns NO otherwise.
+ */
+
++ (BOOL)isAlphaNumeric:(NSString *)string;
 
 #pragma mark - string: equalsString: ignoreCase:
 

@@ -290,6 +290,85 @@
     XCTAssertFalse([CKStringUtils isAlpha:@"aBc$%^"]);
 }
 
+#pragma mark - isNumeric:
+
+- (void)testIsNumeric_nil
+{
+    XCTAssertFalse([CKStringUtils isNumeric:nil]);
+}
+
+- (void)testIsNumeric_empty
+{
+    XCTAssertFalse([CKStringUtils isNumeric:self.emptyString]);
+}
+
+- (void)testIsNumeric_whitespace
+{
+    XCTAssertFalse([CKStringUtils isNumeric:@" "]);
+}
+
+- (void)testIsNumeric_numeric
+{
+    XCTAssertTrue([CKStringUtils isNumeric:@"123"]);
+}
+
+- (void)testIsNumeric_numericWithWhitespace
+{
+    XCTAssertFalse([CKStringUtils isNumeric:@" 123 "]);
+}
+
+- (void)testIsNumeric_numericMixedWithAlphas
+{
+    XCTAssertFalse([CKStringUtils isNumeric:@"123aBc"]);
+}
+
+#pragma mark - isAlphaNumeric:
+
+- (void)testIsAlphaNumeric_nil
+{
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:nil]);
+}
+
+- (void)testIsAlphaNumeric_empty
+{
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:self.emptyString]);
+}
+
+- (void)testIsAlphaNumeric_whitespace
+{
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:@" "]);
+}
+
+- (void)testIsAlphaNumeric_numeric
+{
+    XCTAssertTrue([CKStringUtils isAlphaNumeric:@"123"]);
+}
+
+- (void)testIsAlphaNumeric_alpha
+{
+    XCTAssertTrue([CKStringUtils isAlphaNumeric:@"abc"]);
+}
+
+- (void)testIsAlphaNumeric_alphaNumeric
+{
+    XCTAssertTrue([CKStringUtils isAlphaNumeric:@"abc123"]);
+}
+
+- (void)testIsAlphaNumeric_numericWithWhitespace
+{
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:@" 123 "]);
+}
+
+- (void)testIsAlphaNumeric_alphaWithWhitespace
+{
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:@" abc "]);
+}
+
+- (void)testIsAlphaNumeric_numericMixedWithAlphas
+{
+    XCTAssertTrue([CKStringUtils isAlphaNumeric:@"123aBc"]);
+}
+
 #pragma mark - string: equalsString:
 
 - (void)testStringEqualsString_bothNil

@@ -28,10 +28,7 @@
 
 + (BOOL)isEmpty:(NSString *)string
 {
-    if([self isNil:string] || string.length == 0){
-        return YES;
-    }
-    return NO;
+    return ([self isNil:string] || string.length == 0);
 }
 
 #pragma mark - isNotEmpty:
@@ -45,12 +42,7 @@
 
 + (BOOL)isBlank:(NSString *)string
 {
-    BOOL isEmpty = [self isEmpty:string];
-    if(isEmpty){
-        return YES;
-    }
-    
-    return [self isEmpty:[self stringWithWhitespacesStripped:string]];
+    return ([self isEmpty:string]) ? YES : [self isEmpty:[self stringWithWhitespacesStripped:string]];
 }
 
 #pragma mark - isNotBlank:
@@ -64,41 +56,42 @@
 
 + (BOOL)isWhitespace:(NSString *)string
 {
-    if([self isEmpty:string]){
-        return NO;
-    }
-    return ([self stringWithWhitespacesStripped:string].length == 0);
+    return [self isEmpty:string] ? NO : ([self stringWithWhitespacesStripped:string].length == 0);
 }
 
 #pragma mark - isAllLowerCase:
 
 + (BOOL)isAllLowerCase:(NSString *)string
 {
-    if([CKStringUtils isBlank:string]){
-        return NO;
-    }
-    return ([string rangeOfCharacterFromSet:self.lowerCaseInvertedSet].location == NSNotFound);
+    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.lowerCaseInvertedSet].location == NSNotFound);
 }
 
 #pragma mark - isAllUpperCase:
 
 + (BOOL)isAllUpperCase:(NSString *)string
 {
-    if([CKStringUtils isBlank:string]){
-        return NO;
-    }
-    return ([string rangeOfCharacterFromSet:self.upperCaseInvertedSet].location == NSNotFound);
+    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.upperCaseInvertedSet].location == NSNotFound);
 }
 
 #pragma mark - isAlpha:
 
 + (BOOL)isAlpha:(NSString *)string
 {
-    if([CKStringUtils isBlank:string]){
-        return NO;
-    }
-    
-    return ([string rangeOfCharacterFromSet:self.lowerAndUpperCaseInvertedSet].location == NSNotFound);
+    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.lowerAndUpperCaseInvertedSet].location == NSNotFound);
+}
+
+#pragma mark - isNumeric:
+
++ (BOOL)isNumeric:(NSString *)string
+{
+    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.decimalDigitInvertedCharacterSet].location == NSNotFound);
+}
+
+#pragma mark - isAlphanumeric:
+
++ (BOOL)isAlphaNumeric:(NSString *)string
+{
+    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.alphaNumericInvertedCharacterSet].location == NSNotFound);
 }
 
 #pragma mark - string: equalsString: ignoreCase:
@@ -109,11 +102,7 @@
         return YES;
     }
     
-    if(ignoreCase){
-        return [string1.lowercaseString isEqualToString:string2.lowercaseString];
-    }
-    
-    return [string1 isEqualToString:string2];
+    return ignoreCase ? [string1.lowercaseString isEqualToString:string2.lowercaseString] : [string1 isEqualToString:string2];
 }
 
 #pragma mark - abbreviate: maxWidth:
@@ -178,12 +167,30 @@
 
 + (NSCharacterSet *)lowerAndUpperCaseInvertedSet
 {
-    NSMutableCharacterSet *lowerAndUpperSet = self.lowerCaseSet.mutableCopy;
-    [lowerAndUpperSet formUnionWithCharacterSet:self.upperCaseSet];
-    
-    return [lowerAndUpperSet invertedSet];
+    return [self.lowerAndUpperCaseSet invertedSet];
 }
 
++ (NSCharacterSet *)decimalDigitCharacterSet
+{
+    return  NSCharacterSet.decimalDigitCharacterSet;
+}
 
++ (NSCharacterSet *)decimalDigitInvertedCharacterSet
+{
+    return  [NSCharacterSet.decimalDigitCharacterSet invertedSet];
+}
+
++ (NSCharacterSet *)alphaNumericCharacterSet
+{
+    NSMutableCharacterSet *alphaNumericSet = self.lowerAndUpperCaseSet.mutableCopy;
+    [alphaNumericSet formUnionWithCharacterSet:self.decimalDigitCharacterSet];
+    
+    return alphaNumericSet;
+}
+
++ (NSCharacterSet *)alphaNumericInvertedCharacterSet
+{
+    return [self.alphaNumericCharacterSet invertedSet];
+}
 
 @end
