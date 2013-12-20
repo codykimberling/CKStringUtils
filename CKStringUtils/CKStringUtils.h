@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Objective-C clone of Apache's StringUtils class (https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html)
+ *  ...
  */
 
 @interface CKStringUtils : NSObject
