@@ -172,6 +172,32 @@
 
 + (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase;
 
+#pragma mark - string: containsString:
+
+/**
+ *  Checks string to verify that search string is contained within it
+ *
+ *  @param string       string to search
+ *  @param searchString search string
+ *
+ *  @return returns YES if searchString is contained within string.  Returns NO otherwise.
+ */
+
++ (BOOL)string:(NSString *)string containsString:(NSString *)searchString;
+
+#pragma mark - string: doesNotContainString:
+
+/**
+ *  Checks string to verify that search string is contained within it
+ *
+ *  @param string       string to search
+ *  @param searchString search string
+ *
+ *  @return returns YES if searchString is contained within string.  Returns NO otherwise.
+ */
+
++ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString;
+
 #pragma mark - abbreviate: maxWidth
 
 /**

@@ -94,6 +94,28 @@
     return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.alphaNumericInvertedCharacterSet].location == NSNotFound);
 }
 
+#pragma mark - string: containsString:
+
++ (BOOL)string:(NSString *)string containsString:(NSString *)searchString
+{
+    if([self isNil:string] && [self isNil:searchString]){
+        return YES;
+    }
+    
+    if([self isNil:string] || [self isNil:searchString]){
+        return NO;
+    }
+    
+    return !([string rangeOfString:searchString].location == NSNotFound);
+}
+
+#pragma mark - string: doesNotContainString:
+
++ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString
+{
+    return ![self string:string containsString:searchString];
+}
+
 #pragma mark - string: equalsString: ignoreCase:
 
 + (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase

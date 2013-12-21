@@ -369,6 +369,62 @@
     XCTAssertTrue([CKStringUtils isAlphaNumeric:@"123aBc"]);
 }
 
+#pragma mark - string: containsString:
+
+- (void)testContainsString_nilString
+{
+    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value"]);
+    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value"]);
+}
+
+- (void)testContainsString_nilSearchString
+{
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil]);
+}
+
+- (void)testContainsString_bothNil
+{
+    XCTAssertTrue([CKStringUtils string:nil containsString:nil]);
+    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil]);
+}
+
+- (void)testContainsString_emptyString
+{
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString]);
+}
+
+- (void)testContainsString_blankString
+{
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString]);
+}
+
+- (void)testContainsString_capitalized
+{
+    NSString *string = @"test";
+    NSString *searchString = @"Test";
+    XCTAssertFalse([CKStringUtils string:string containsString:searchString]);
+    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString]);
+}
+
+- (void)testContainsString_withInvalidSearchString
+{
+    NSString *string = @"test";
+    NSString *searchString = @"search";
+    XCTAssertFalse([CKStringUtils string:string containsString:searchString]);
+    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString]);
+}
+
+- (void)testContainsString
+{
+    NSString *string = @"test";
+    NSString *searchString = @"test";
+    XCTAssertTrue([CKStringUtils string:string containsString:searchString]);
+    XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString]);
+}
+
 #pragma mark - string: equalsString:
 
 - (void)testStringEqualsString_bothNil
