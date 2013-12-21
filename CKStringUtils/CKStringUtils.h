@@ -180,7 +180,7 @@
  *  @param string       string to search
  *  @param searchString search string
  *
- *  @return returns YES if searchString is contained within string.  Returns NO otherwise.
+ *  @return returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil, return YES.
  */
 
 + (BOOL)string:(NSString *)string containsString:(NSString *)searchString;
@@ -188,12 +188,12 @@
 #pragma mark - string: doesNotContainString:
 
 /**
- *  Checks string to verify that search string is contained within it
+ *  Checks string to verify that search string is not contained within it
  *
  *  @param string       string to search
  *  @param searchString search string
  *
- *  @return returns YES if searchString is contained within string.  Returns NO otherwise.
+ *  @return returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil, return NO.
  */
 
 + (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString;
