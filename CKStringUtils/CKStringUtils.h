@@ -172,31 +172,33 @@
 
 + (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase;
 
-#pragma mark - string: containsString:
+#pragma mark - string: containsString: ignoreCase:
 
 /**
  *  Checks string to verify that search string is contained within it
  *
  *  @param string       string to search
  *  @param searchString search string
+ *  @param ignoreCase   YES to case-insensitive compare strings
  *
  *  @return returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil, return YES.
  */
 
-+ (BOOL)string:(NSString *)string containsString:(NSString *)searchString;
++ (BOOL)string:(NSString *)string containsString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
 
-#pragma mark - string: doesNotContainString:
+#pragma mark - string: doesNotContainString: ignoreCase:
 
 /**
  *  Checks string to verify that search string is not contained within it
  *
  *  @param string       string to search
  *  @param searchString search string
+ *  @param ignoreCase   YES to case-insensitive compare strings
  *
  *  @return returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil, return NO.
  */
 
-+ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString;
++ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
 
 #pragma mark - abbreviate: maxWidth
 
@@ -215,5 +217,44 @@
  */
 
 + (NSString *)abbreviate:(NSString *)string maxWidth:(int)maxWidth;
+
+#pragma mark - defaultString: forString:
+
+/**
+ *  Returns either string or defaultString if string is nil.
+ *
+ *  @param defaultString default string
+ *  @param string        string to check
+ *
+ *  @return returns defaultString if string is nil.  Returns nil if both arguments are nil.  Returns string otherwise.
+ */
+
++ (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string;
+
+#pragma mark - defaultStringIfEmpty: forString:
+
+/**
+ *  Returns either string or defaultString if string is nil or empty.
+ *
+ *  @param defaultString default string
+ *  @param string        string to check
+ *
+ *  @return returns defaultString if string is nil or empty.  Returns nil if both arguments are nil.  Returns string otherwise.
+ */
+
++ (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string;
+
+#pragma mark - defaultStringIfBlank: forString:
+
+/**
+ *  Returns either string or defaultString if string is nil, empty, or blank.
+ *
+ *  @param defaultString default string
+ *  @param string        string to check
+ *
+ *  @return returns defaultString if string is nil, empty, or blank.  Returns nil if both arguments are nil.  Returns string otherwise.
+ */
+
++ (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string;
 
 @end

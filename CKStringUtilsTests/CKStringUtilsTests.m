@@ -373,56 +373,75 @@
 
 - (void)testContainsString_nilString
 {
-    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value"]);
-    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value"]);
+    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value" ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value" ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value" ignoreCase:YES]);
 }
 
 - (void)testContainsString_nilSearchString
 {
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil ignoreCase:YES]);
 }
 
 - (void)testContainsString_bothNil
 {
-    XCTAssertTrue([CKStringUtils string:nil containsString:nil]);
-    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil]);
+    XCTAssertTrue([CKStringUtils string:nil containsString:nil ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:nil containsString:nil ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil ignoreCase:YES]);
 }
 
 - (void)testContainsString_emptyString
 {
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString ignoreCase:YES]);
 }
 
 - (void)testContainsString_blankString
 {
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString ignoreCase:YES]);
 }
 
 - (void)testContainsString_capitalized
 {
     NSString *string = @"test";
     NSString *searchString = @"Test";
-    XCTAssertFalse([CKStringUtils string:string containsString:searchString]);
-    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString]);
+    
+    XCTAssertFalse([CKStringUtils string:string containsString:searchString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:string containsString:searchString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString ignoreCase:YES]);
 }
 
 - (void)testContainsString_withInvalidSearchString
 {
     NSString *string = @"test";
     NSString *searchString = @"search";
-    XCTAssertFalse([CKStringUtils string:string containsString:searchString]);
-    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString]);
+    
+    XCTAssertFalse([CKStringUtils string:string containsString:searchString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:string containsString:searchString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:string doesNotContainString:searchString ignoreCase:YES]);
 }
 
 - (void)testContainsString
 {
     NSString *string = @"test";
     NSString *searchString = @"test";
-    XCTAssertTrue([CKStringUtils string:string containsString:searchString]);
-    XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString]);
+    
+    XCTAssertTrue([CKStringUtils string:string containsString:searchString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:string containsString:searchString ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString ignoreCase:YES]);
 }
 
 #pragma mark - string: equalsString:
@@ -469,40 +488,205 @@
 - (void)testAbbreviate_nil
 {
     NSString *actual = [CKStringUtils abbreviate:nil maxWidth:3];
-    XCTAssertNil(actual, @"Return nil if String is nil");
+    XCTAssertNil(actual);
 }
 
 - (void)testAbbreviate_empty
 {
     NSString *actual = [CKStringUtils abbreviate:@"" maxWidth:3];
-    XCTAssertEqualObjects(actual, @"", @"Return empty if String is empty");
+    XCTAssertEqualObjects(actual, @"");
 }
 
 - (void)testAbbreviate
 {
     NSString *actual = [CKStringUtils abbreviate:@"abcdefg" maxWidth:6];
-    XCTAssertEqualObjects(actual, @"abc...",@"Return abbrteviated string");
+    XCTAssertEqualObjects(actual, @"abc...");
 }
 
 - (void)testAbbreviate_returnOriginalStringIfMaxWidthPlusEllipsesIsEqualThanStringLength
 {
     NSString *sourceString = @"abcdefg";
     NSString *actual = [CKStringUtils abbreviate:sourceString maxWidth:7];
-    XCTAssertEqualObjects(actual, sourceString, @"Return abbrteviated string");
+    XCTAssertEqualObjects(actual, sourceString);
 }
 
 - (void)testAbbreviate_returnOriginalStringIfMaxWidthPlusEllipsesIsLongerThanStringLength
 {
     NSString *sourceString = @"abcdefg";
     NSString *actual = [CKStringUtils abbreviate:sourceString maxWidth:8];
-    XCTAssertEqualObjects(actual, sourceString, @"Return abbrteviated string");
+    XCTAssertEqualObjects(actual, sourceString);
 }
 
 - (void)testAbbreviateInvalidMaxWidth
 {
     NSString *sourceString = @"abcdefg";
     NSString *actual = [CKStringUtils abbreviate:sourceString maxWidth:3];
-    XCTAssertEqualObjects(actual, sourceString, @"Return abbrteviated string if max width is invalid");
+    XCTAssertEqualObjects(actual, sourceString);
+}
+
+#pragma mark - defaultString: forString:
+
+- (void)testDefaultString_nilDefaultString
+{
+    NSString *defaultString = @"default";
+    
+    NSString *actualString = [CKStringUtils defaultString:defaultString forString:nil];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultString_nilString
+{
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultString:nil forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultString_bothArugmentsNil
+{
+    NSString *actualString = [CKStringUtils defaultString:nil forString:nil];
+    
+    XCTAssertNil(actualString);
+}
+
+- (void)testDefaultString_empty
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultString:defaultString forString:self.emptyString];
+    
+    XCTAssertEqualObjects(actualString, self.emptyString);
+}
+
+- (void)testDefaultString_whitespace
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultString:defaultString forString:self.whitespaceString];
+    
+    XCTAssertEqualObjects(actualString, self.whitespaceString);
+}
+
+- (void)testDefaultString
+{
+    NSString *defaultString = @"defaultString";
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultString:defaultString forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
+}
+
+#pragma mark - defaultStringIfEmpty: forString:
+
+- (void)testDefaultStringIfEmpty_nilDefaultString
+{
+    NSString *defaultString = @"default";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:nil];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultStringIfEmpty_nilString
+{
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:nil forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultStringIfEmpty_bothArugmentsNil
+{
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:nil forString:nil];
+    
+    XCTAssertNil(actualString);
+}
+
+- (void)testDefaultStringIfEmpty_empty
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.emptyString];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultStringIfEmpty_whitespace
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.whitespaceString];
+    
+    XCTAssertEqualObjects(actualString, self.whitespaceString);
+}
+
+- (void)testDefaultStringIfEmpty
+{
+    NSString *defaultString = @"defaultString";
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
+}
+
+#pragma mark - defaultStringIfBlank: forString:
+
+- (void)testDefaultStringIfBlank_nilDefaultString
+{
+    NSString *defaultString = @"default";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:nil];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultStringIfBlank_nilString
+{
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:nil forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultStringIfBlank_bothArugmentsNil
+{
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:nil forString:nil];
+    
+    XCTAssertNil(actualString);
+}
+
+- (void)testDefaultStringIfBlank_empty
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:self.emptyString];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultStringIfBlank_whitespace
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:self.whitespaceString];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
+- (void)testDefaultStringIfBlank
+{
+    NSString *defaultString = @"defaultString";
+    NSString *string = @"string";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:string];
+    
+    XCTAssertEqualObjects(actualString, string);
 }
 
 @end

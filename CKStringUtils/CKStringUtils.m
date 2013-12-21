@@ -96,7 +96,7 @@
 
 #pragma mark - string: containsString:
 
-+ (BOOL)string:(NSString *)string containsString:(NSString *)searchString
++ (BOOL)string:(NSString *)string containsString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase
 {
     if([self isNil:string] && [self isNil:searchString]){
         return YES;
@@ -106,14 +106,17 @@
         return NO;
     }
     
-    return !([string rangeOfString:searchString].location == NSNotFound);
+    NSString *stringToSearch = (ignoreCase) ? string.lowercaseString : string;
+    NSString *queryString = (ignoreCase) ? searchString.lowercaseString : searchString;
+    
+    return !([stringToSearch rangeOfString:queryString].location == NSNotFound);
 }
 
 #pragma mark - string: doesNotContainString:
 
-+ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString
++ (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase
 {
-    return ![self string:string containsString:searchString];
+    return ![self string:string containsString:searchString ignoreCase:ignoreCase];
 }
 
 #pragma mark - string: equalsString: ignoreCase:
@@ -213,6 +216,27 @@
 + (NSCharacterSet *)alphaNumericInvertedCharacterSet
 {
     return [self.alphaNumericCharacterSet invertedSet];
+}
+
+#pragma mark - defaultString: forString:
+
++ (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isNil:string] ? defaultString : string;
+}
+
+#pragma mark - defaultStringIfEmpty: forString:
+
++ (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isEmpty:string] ? defaultString : string;
+}
+
+#pragma mark - defaultStringIfBlank: forString:
+
++ (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isBlank:string] ? defaultString : string;
 }
 
 @end
