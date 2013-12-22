@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors      =  {'Cody Kimberling' => 'clkimberling@gmail.com'}
   s.summary      =  'NSString utilitiy class.'
   s.description  =  'A utilitiy class to help make working with NSStrings a little easier.'
-  s.source       =  {:git => 'https://github.com/codykimberling/CKStringUtils.git', :tag => '1.0.0'}
+  s.source       =  {:git => 'https://github.com/codykimberling/CKStringUtils.git', :commit => '3d02cf7b925fbcf3cfff7b115c1a10e3ae299ef0'}
   s.source_files =  'CKStringUtils/CKStringUtils.{h,m}'
   s.requires_arc = 	true
 end
