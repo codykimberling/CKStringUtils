@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A NSString utility class to help make working with NSStrings a little easier.<br />
+ *  A NSString utility class to help make working with NSStrings a little easier.
  *
- *  An empty string is either a nil value of a 0-length string<br>
- *  A blank string is either an empty string of a string which contains 1 or more non-whitespace characters
+ *  *  An __empty string__ is either a nil value of a 0-length string.
+ *
+ *  *  A __blank string__ is either an empty string of a string which contains 1 or more non-whitespace characters.
  *
  */
 
@@ -208,12 +209,12 @@
 #pragma mark - defaultStringIfEmpty: forString:
 
 /**
- *  Returns either string or defaultString if string is nil, blank or empty.
+ *  Returns either string or defaultString if string is empty.
  *
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return Returns defaultString if string is nil, blank, or empty.  Returns nil if both arguments are nil.  Returns string otherwise.
+ *  @return Returns defaultString if string is empty.  Returns nil if both arguments are nil.  Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string;
@@ -221,12 +222,12 @@
 #pragma mark - defaultStringIfBlank: forString:
 
 /**
- *  Returns either string or defaultString if string is nil or blank.
+ *  Returns either string or defaultString if string is blank.
  *
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return Returns defaultString if string is nil or blank.  Returns nil if both arguments are nil.  Returns string otherwise.
+ *  @return Returns defaultString if string is blank.  Returns nil if both arguments are nil.  Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string;
