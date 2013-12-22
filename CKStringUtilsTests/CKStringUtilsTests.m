@@ -11,29 +11,21 @@
 
 @interface CKStringUtilsTests : XCTestCase
 
+@property (nonatomic) NSString *blankString;
 @property (nonatomic) NSString *emptyString;
-@property (nonatomic) NSString *whitespaceString;
 
 @end
 
 @implementation CKStringUtilsTests
-
 
 #pragma mark - Setup
 
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
     
     self.emptyString = @"";
-    self.whitespaceString = @" ";
-}
-
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
+    self.blankString = @" ";
 }
 
 #pragma mark - isNil: isNotNil:
@@ -44,10 +36,10 @@
     XCTAssertFalse([CKStringUtils isNotNil:nil]);
 }
 
-- (void)testIsNil_empty
+- (void)testIsNil_blank
 {
-    XCTAssertFalse([CKStringUtils isNil:self.emptyString]);
-    XCTAssertTrue([CKStringUtils isNotNil:self.emptyString]);
+    XCTAssertFalse([CKStringUtils isNil:self.blankString]);
+    XCTAssertTrue([CKStringUtils isNotNil:self.blankString]);
 }
 
 - (void)testIsNil
@@ -64,19 +56,19 @@
     XCTAssertFalse([CKStringUtils isNotEmpty:nil]);
 }
 
+- (void)testIsEmpty_blankString
+{
+    XCTAssertFalse([CKStringUtils isEmpty:self.blankString]);
+    XCTAssertTrue([CKStringUtils isNotEmpty:self.blankString]);
+}
+
 - (void)testIsEmpty_emptyString
 {
     XCTAssertTrue([CKStringUtils isEmpty:self.emptyString]);
     XCTAssertFalse([CKStringUtils isNotEmpty:self.emptyString]);
 }
 
-- (void)testIsEmpty_blankString
-{
-    XCTAssertFalse([CKStringUtils isEmpty:self.whitespaceString]);
-    XCTAssertTrue([CKStringUtils isNotEmpty:self.whitespaceString]);
-}
-
-- (void)testIsEmpty_whitespaceString
+- (void)testIsEmpty_stringWithWhitespace
 {
     XCTAssertFalse([CKStringUtils isEmpty:@"  test  "]);
     XCTAssertTrue([CKStringUtils isNotEmpty:@"  test  "]);
@@ -96,21 +88,21 @@
     XCTAssertFalse([CKStringUtils isNotBlank:nil]);
 }
 
+- (void)testIsBlank_blank
+{
+    XCTAssertTrue([CKStringUtils isBlank:self.blankString]);
+    XCTAssertFalse([CKStringUtils isNotBlank:self.blankString]);
+}
+
 - (void)testIsBlank_empty
 {
     XCTAssertTrue([CKStringUtils isBlank:self.emptyString]);
     XCTAssertFalse([CKStringUtils isNotBlank:self.emptyString]);
 }
 
-- (void)testIsBlank_whitespace
-{
-    XCTAssertTrue([CKStringUtils isBlank:self.whitespaceString]);
-    XCTAssertFalse([CKStringUtils isNotBlank:self.whitespaceString]);
-}
-
 - (void)testIsBlank_multipleWhitespaceCharacters
 {
-    NSString *string = [NSString stringWithFormat:@"%@%@", self.whitespaceString, self.whitespaceString];
+    NSString *string = [NSString stringWithFormat:@"%@%@", self.emptyString, self.emptyString];
     XCTAssertTrue([CKStringUtils isBlank:string]);
     XCTAssertFalse([CKStringUtils isNotBlank:string]);
 }
@@ -127,38 +119,6 @@
     XCTAssertTrue([CKStringUtils isNotBlank:@"  test  "]);
 }
 
-#pragma mark - isWhitespace:
-
-- (void)testIsWhitespace_nil
-{
-    XCTAssertFalse([CKStringUtils isWhitespace:nil]);
-}
-
-- (void)testIsWhitespace_singleWhitespaceChars
-{
-    XCTAssertTrue([CKStringUtils isWhitespace:self.whitespaceString]);
-}
-
-- (void)testIsWhitespace_multipleWhitespaceChars
-{
-    XCTAssertTrue([CKStringUtils isWhitespace:@"   "]);
-}
-
-- (void)testIsWhitespace_nonEmptyString
-{
-    XCTAssertFalse([CKStringUtils isWhitespace:@"test"]);
-}
-
-- (void)testIsWhitespace_nonEmptyStringWithWhitespaceChars
-{
-    XCTAssertFalse([CKStringUtils isWhitespace:@"  test  "]);
-}
-
-- (void)testIsWhitespace_emptyString
-{
-    XCTAssertFalse([CKStringUtils isWhitespace:self.emptyString]);
-}
-
 #pragma mark - isAllLowerCase:
 
 - (void)testIsAllLowerCase_nil
@@ -166,14 +126,14 @@
     XCTAssertFalse([CKStringUtils isAllLowerCase:nil]);
 }
 
+- (void)testIsAllLowerCase_blank
+{
+    XCTAssertFalse([CKStringUtils isAllLowerCase:self.blankString]);
+}
+
 - (void)testIsAllLowerCase_empty
 {
     XCTAssertFalse([CKStringUtils isAllLowerCase:self.emptyString]);
-}
-
-- (void)testIsAllLowerCase_blank
-{
-    XCTAssertFalse([CKStringUtils isAllLowerCase:self.whitespaceString]);
 }
 
 - (void)testIsAllLowerCase_mixedCase
@@ -208,14 +168,14 @@
     XCTAssertFalse([CKStringUtils isAllUpperCase:nil]);
 }
 
+- (void)testIsAllUpperCase_blank
+{
+    XCTAssertFalse([CKStringUtils isAllUpperCase:self.blankString]);
+}
+
 - (void)testIsAllUpperCase_empty
 {
     XCTAssertFalse([CKStringUtils isAllUpperCase:self.emptyString]);
-}
-
-- (void)testIsAllUpperCase_blank
-{
-    XCTAssertFalse([CKStringUtils isAllUpperCase:self.whitespaceString]);
 }
 
 - (void)testIsAllUpperCase_mixedCase
@@ -250,12 +210,12 @@
     XCTAssertFalse([CKStringUtils isAlpha:nil]);
 }
 
-- (void)testIsAlpha_empty
+- (void)testIsAlpha_blank
 {
-    XCTAssertFalse([CKStringUtils isAlpha:self.emptyString]);
+    XCTAssertFalse([CKStringUtils isAlpha:self.blankString]);
 }
 
-- (void)testIsAlpha_whitespace
+- (void)testIsAlpha_empty
 {
     XCTAssertFalse([CKStringUtils isAlpha:@" "]);
 }
@@ -297,12 +257,12 @@
     XCTAssertFalse([CKStringUtils isNumeric:nil]);
 }
 
-- (void)testIsNumeric_empty
+- (void)testIsNumeric_blank
 {
-    XCTAssertFalse([CKStringUtils isNumeric:self.emptyString]);
+    XCTAssertFalse([CKStringUtils isNumeric:self.blankString]);
 }
 
-- (void)testIsNumeric_whitespace
+- (void)testIsNumeric_empty
 {
     XCTAssertFalse([CKStringUtils isNumeric:@" "]);
 }
@@ -329,12 +289,12 @@
     XCTAssertFalse([CKStringUtils isAlphaNumeric:nil]);
 }
 
-- (void)testIsAlphaNumeric_empty
+- (void)testIsAlphaNumeric_blank
 {
-    XCTAssertFalse([CKStringUtils isAlphaNumeric:self.emptyString]);
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:self.blankString]);
 }
 
-- (void)testIsAlphaNumeric_whitespace
+- (void)testIsAlphaNumeric_empty
 {
     XCTAssertFalse([CKStringUtils isAlphaNumeric:@" "]);
 }
@@ -395,20 +355,20 @@
     XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil ignoreCase:YES]);
 }
 
-- (void)testContainsString_emptyString
+- (void)testContainsString_blankString
+{
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.blankString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.blankString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.blankString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.blankString ignoreCase:YES]);
+}
+
+- (void)testContainsString_emptySring
 {
     XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString ignoreCase:NO]);
     XCTAssertFalse([CKStringUtils string:@"test" containsString:self.emptyString ignoreCase:YES]);
     XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString ignoreCase:NO]);
     XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.emptyString ignoreCase:YES]);
-}
-
-- (void)testContainsString_blankString
-{
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.whitespaceString ignoreCase:YES]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString ignoreCase:NO]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.whitespaceString ignoreCase:YES]);
 }
 
 - (void)testContainsString_capitalized
@@ -491,7 +451,7 @@
     XCTAssertNil(actual);
 }
 
-- (void)testAbbreviate_empty
+- (void)testAbbreviate_blank
 {
     NSString *actual = [CKStringUtils abbreviate:@"" maxWidth:3];
     XCTAssertEqualObjects(actual, @"");
@@ -551,6 +511,15 @@
     XCTAssertNil(actualString);
 }
 
+- (void)testDefaultString_blank
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultString:defaultString forString:self.blankString];
+    
+    XCTAssertEqualObjects(actualString, self.blankString);
+}
+
 - (void)testDefaultString_empty
 {
     NSString *defaultString = @"defaultString";
@@ -558,15 +527,6 @@
     NSString *actualString = [CKStringUtils defaultString:defaultString forString:self.emptyString];
     
     XCTAssertEqualObjects(actualString, self.emptyString);
-}
-
-- (void)testDefaultString_whitespace
-{
-    NSString *defaultString = @"defaultString";
-    
-    NSString *actualString = [CKStringUtils defaultString:defaultString forString:self.whitespaceString];
-    
-    XCTAssertEqualObjects(actualString, self.whitespaceString);
 }
 
 - (void)testDefaultString
@@ -606,6 +566,15 @@
     XCTAssertNil(actualString);
 }
 
+- (void)testDefaultStringIfEmpty_blank
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.blankString];
+    
+    XCTAssertEqualObjects(actualString, self.blankString);
+}
+
 - (void)testDefaultStringIfEmpty_empty
 {
     NSString *defaultString = @"defaultString";
@@ -613,15 +582,6 @@
     NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.emptyString];
     
     XCTAssertEqualObjects(actualString, defaultString);
-}
-
-- (void)testDefaultStringIfEmpty_whitespace
-{
-    NSString *defaultString = @"defaultString";
-    
-    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.whitespaceString];
-    
-    XCTAssertEqualObjects(actualString, self.whitespaceString);
 }
 
 - (void)testDefaultStringIfEmpty
@@ -661,20 +621,20 @@
     XCTAssertNil(actualString);
 }
 
+- (void)testDefaultStringIfBlank_blank
+{
+    NSString *defaultString = @"defaultString";
+    
+    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:self.blankString];
+    
+    XCTAssertEqualObjects(actualString, defaultString);
+}
+
 - (void)testDefaultStringIfBlank_empty
 {
     NSString *defaultString = @"defaultString";
     
     NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:self.emptyString];
-    
-    XCTAssertEqualObjects(actualString, defaultString);
-}
-
-- (void)testDefaultStringIfBlank_whitespace
-{
-    NSString *defaultString = @"defaultString";
-    
-    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:self.whitespaceString];
     
     XCTAssertEqualObjects(actualString, defaultString);
 }

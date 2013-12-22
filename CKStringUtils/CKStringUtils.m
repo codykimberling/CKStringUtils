@@ -52,13 +52,6 @@
     return ![self isBlank:string];
 }
 
-#pragma mark - isWhitespace:
-
-+ (BOOL)isWhitespace:(NSString *)string
-{
-    return [self isEmpty:string] ? NO : ([self stringWithWhitespacesStripped:string].length == 0);
-}
-
 #pragma mark - isAllLowerCase:
 
 + (BOOL)isAllLowerCase:(NSString *)string
@@ -128,6 +121,27 @@
     }
     
     return ignoreCase ? [string1.lowercaseString isEqualToString:string2.lowercaseString] : [string1 isEqualToString:string2];
+}
+
+#pragma mark - defaultString: forString:
+
++ (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isNil:string] ? defaultString : string;
+}
+
+#pragma mark - defaultStringIfEmpty: forString:
+
++ (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isEmpty:string] ? defaultString : string;
+}
+
+#pragma mark - defaultStringIfBlank: forString:
+
++ (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string
+{
+    return [self isBlank:string] ? defaultString : string;
 }
 
 #pragma mark - abbreviate: maxWidth:
@@ -216,27 +230,6 @@
 + (NSCharacterSet *)alphaNumericInvertedCharacterSet
 {
     return [self.alphaNumericCharacterSet invertedSet];
-}
-
-#pragma mark - defaultString: forString:
-
-+ (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string
-{
-    return [self isNil:string] ? defaultString : string;
-}
-
-#pragma mark - defaultStringIfEmpty: forString:
-
-+ (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string
-{
-    return [self isEmpty:string] ? defaultString : string;
-}
-
-#pragma mark - defaultStringIfBlank: forString:
-
-+ (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string
-{
-    return [self isBlank:string] ? defaultString : string;
 }
 
 @end

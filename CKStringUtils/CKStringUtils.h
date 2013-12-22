@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  ...
+ *  A NSString utility class to help make working with NSStrings a little easier.<br />
+ *
+ *  An empty string is either a nil value of a 0-length string<br>
+ *  A blank string is either an empty string of a string which contains 1 or more non-whitespace characters
+ *
  */
 
 @interface CKStringUtils : NSObject
@@ -21,7 +25,7 @@
  *
  *  @param string string to check for nil
  *
- *  @return returns YES if nil, NO otherwise.
+ *  @return Returns YES if nil, NO otherwise.
  */
 
 + (BOOL)isNil:(NSString *)string;
@@ -33,7 +37,7 @@
  *
  *  @param string string to check for nil
  *
- *  @return returns NO if nil, YES otherwise.
+ *  @return Returns NO if nil, YES otherwise.
  */
 
 + (BOOL)isNotNil:(NSString *)string;
@@ -45,7 +49,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return returns YES is string is empty or nil, NO otherwise.
+ *  @return Returns YES is string is empty or nil, NO otherwise.
  */
 
 + (BOOL)isEmpty:(NSString *)string;
@@ -57,7 +61,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return returns NO is string is empty or nil, YES otherwise.
+ *  @return Returns NO is string is empty or nil, YES otherwise.
  */
 
 + (BOOL)isNotEmpty:(NSString *)string;
@@ -69,7 +73,7 @@
  *
  *  @param string string to check for blank value
  *
- *  @return returns YES is string is nil, empty, or blank.  Returns NO otherwise.
+ *  @return Returns YES is string is nil, empty, or blank.  Returns NO otherwise.
  */
 
 + (BOOL)isBlank:(NSString *)string;
@@ -81,22 +85,10 @@
  *
  *  @param string string to check for blank value
  *
- *  @return returns NO is string is nil, empty, or blank.  Returns YES otherwise.
+ *  @return Returns NO is string is nil, empty, or blank.  Returns YES otherwise.
  */
 
 + (BOOL)isNotBlank:(NSString *)string;
-
-#pragma mark - isWhitespace:
-
-/**
- *  Checks to see if string contains only whitespace.
- *
- *  @param string string to check
- *
- *  @return retruns YES if string only contains whitespace.  Returns NO otherwise.
- */
-
-+ (BOOL)isWhitespace:(NSString *)string;
 
 #pragma mark - isAllLowerCase:
 
@@ -105,7 +97,7 @@
  *
  *  @param string string to check
  *
- *  @return returns YES if and only if every character in string is a lower-case value.  Returns NO otherwise.
+ *  @return Returns YES if and only if every character in string is a lower-case value.  Returns NO otherwise.
  */
 
 + (BOOL)isAllLowerCase:(NSString *)string;
@@ -117,7 +109,7 @@
  *
  *  @param string string to check
  *
- *  @return returns YES if and only if every character in string is an upper-case value.  Returns NO otherwise.
+ *  @return Returns YES if and only if every character in string is an upper-case value.  Returns NO otherwise.
  */
 
 + (BOOL)isAllUpperCase:(NSString *)string;
@@ -129,7 +121,7 @@
  *
  *  @param string string to check
  *
- *  @return returns YES if and only if every character in string is an alpha value.  Returns NO otherwise.
+ *  @return Returns YES if and only if every character in string is an alpha value.  Returns NO otherwise.
  */
 
 + (BOOL)isAlpha:(NSString *)string;
@@ -141,7 +133,7 @@
  *
  *  @param string string to check
  *
- *  @return returns YES if and only if every character in string is a numeric value.  Returns NO otherwise.
+ *  @return Returns YES if and only if every character in string is a numeric value.  Returns NO otherwise.
  */
 
 + (BOOL)isNumeric:(NSString *)string;
@@ -153,7 +145,7 @@
  *
  *  @param string string to check
  *
- *  @return returns YES if and only if every character in string is an alphanumeric value.  Returns NO otherwise.
+ *  @return Returns YES if and only if every character in string is an alphanumeric value.  Returns NO otherwise.
  */
 
 + (BOOL)isAlphaNumeric:(NSString *)string;
@@ -167,7 +159,7 @@
  *  @param string2    second string
  *  @param ignoreCase YES to case-insensitive compare strings
  *
- *  @return returns YES if strings are equal (dependingon ignoreCase BOOL) or if both strings are nil.  Returns NO otherwise.
+ *  @return Returns YES if strings are equal (dependingon ignoreCase BOOL) or if both strings are nil.  Returns NO otherwise.
  */
 
 + (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase;
@@ -181,7 +173,7 @@
  *  @param searchString search string
  *  @param ignoreCase   YES to case-insensitive compare strings
  *
- *  @return returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil, return YES.
+ *  @return Returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil, return YES.
  */
 
 + (BOOL)string:(NSString *)string containsString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
@@ -195,28 +187,10 @@
  *  @param searchString search string
  *  @param ignoreCase   YES to case-insensitive compare strings
  *
- *  @return returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil, return NO.
+ *  @return Returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil, return NO.
  */
 
 + (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
-
-#pragma mark - abbreviate: maxWidth
-
-/**
- *  Abbreviates a String using ellipses. This will turn "abc123" into "abc..."
- *
- *  If string is less than maxWidth characters long, return it.<br />
- *  Else abbreviate it<br />
- *  If maxWidth is less than 4, return original String<br />
- *  In no case will it return a String of length greater than maxWidth.<br />
- *
- *  @param string   string to abbreviate
- *  @param maxWidth max width of abbreviated string
- *
- *  @return returns abbreviated string with ellipses
- */
-
-+ (NSString *)abbreviate:(NSString *)string maxWidth:(int)maxWidth;
 
 #pragma mark - defaultString: forString:
 
@@ -226,7 +200,7 @@
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return returns defaultString if string is nil.  Returns nil if both arguments are nil.  Returns string otherwise.
+ *  @return Returns defaultString if string is nil.  Returns nil if both arguments are nil.  Returns string otherwise.
  */
 
 + (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string;
@@ -234,12 +208,12 @@
 #pragma mark - defaultStringIfEmpty: forString:
 
 /**
- *  Returns either string or defaultString if string is nil or empty.
+ *  Returns either string or defaultString if string is nil, blank or empty.
  *
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return returns defaultString if string is nil or empty.  Returns nil if both arguments are nil.  Returns string otherwise.
+ *  @return Returns defaultString if string is nil, blank, or empty.  Returns nil if both arguments are nil.  Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string;
@@ -247,14 +221,32 @@
 #pragma mark - defaultStringIfBlank: forString:
 
 /**
- *  Returns either string or defaultString if string is nil, empty, or blank.
+ *  Returns either string or defaultString if string is nil or blank.
  *
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return returns defaultString if string is nil, empty, or blank.  Returns nil if both arguments are nil.  Returns string otherwise.
+ *  @return Returns defaultString if string is nil or blank.  Returns nil if both arguments are nil.  Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string;
+
+#pragma mark - abbreviate: maxWidth
+
+/**
+ *  Abbreviates a string using ellipses. This will turn "abc123" into "abc..."
+ *
+ *  If string is less than maxWidth characters long, return it.<br />
+ *  Else abbreviate it<br />
+ *  If maxWidth is less than 4, return original string<br />
+ *  In no case will it return a string of length greater than maxWidth.<br />
+ *
+ *  @param string   string to abbreviate
+ *  @param maxWidth max width of abbreviated string
+ *
+ *  @return Returns abbreviated string with ellipses
+ */
+
++ (NSString *)abbreviate:(NSString *)string maxWidth:(int)maxWidth;
 
 @end
