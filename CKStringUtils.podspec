@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name         =  'CKStringUtils'
   s.version      =  '1.0.0'
   s.platform 	   =  :ios
-  s.license      =  {:type => 'BSD'}
+  s.license      =  { :type => 'MIT', :file => 'LICENSE' }
   s.homepage     =  'https://github.com/codykimberling/CKStringUtils'
   s.authors      =  {'Cody Kimberling' => 'clkimberling@gmail.com'}
   s.summary      =  'NSString utilitiy class.'
