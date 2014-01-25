@@ -250,4 +250,64 @@
 
 + (NSString *)abbreviate:(NSString *)string maxWidth:(int)maxWidth;
 
+#pragma mark - isValidEmailAddress:
+
+/**
+ *  Tests a string to determine if it is a valid email address
+ *
+ *  @param emailAddress email address to verify
+ *
+ *  @return YES if valid email address, NO otherwise
+ */
+
++ (BOOL)isValidEmailAddress:(NSString *)emailAddress;
+
+#pragma mark stringByTrimmingLeadingWhitespaceCharactersInString:
+
+/**
+ *  Returns a NSString with leading space trimmed
+ *
+ *  @param string String to trim
+ *
+ *  @return Returns trimmed string (leading spaces).  If string is empty or nil, return string.
+ */
+
++ (NSString *)stringByTrimmingLeadingWhitespaceCharactersInString:(NSString *)string;
+
+#pragma mark stringByTrimmingTrailingWhitespaceCharactersInString
+
+/**
+ *  Returns a NSString with trailing space trimmed
+ *
+ *  @param string String to trim
+ *
+ *  @return Returns trimmed string (trailing spaces).  If string is empty or nil, return string.
+ */
+
++ (NSString *)stringByTrimmingTrailingWhitespaceCharactersInString:(NSString *)string;
+
+#pragma mark stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:
+
+/**
+ *  Returns a NSString with leading and trailing space trimmed
+ *
+ *  @param string String to trim
+ *
+ *  @return Returns trimmed string (leading and trailing spaces).  If string is empty or nil, return string.
+ */
+
++ (NSString *)stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:(NSString *)string;
+
+#pragma mark stringByUrlEscapingString:
+
+/**
+ *  Returns a URL escaped version of the string argument
+ *
+ *  @param string string to escape
+ *
+ *  @return If blank, return string otherwise return URL escaped version of the string.
+ */
+
++ (NSString *)stringByUrlEscapingString:(NSString *)string;
+
 @end

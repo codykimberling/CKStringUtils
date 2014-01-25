@@ -8,9 +8,18 @@
 
 #import <XCTest/XCTest.h>
 #import "CKStringUtils.h"
+#import "OCMock.h"
+
+@interface CKStringUtils (TestHelper)
+
++ (NSString *)illegalCharaterSet;
++ (BOOL)doesStringContainIllegalUrlCharacters:(NSString *)string;
+
+@end
 
 @interface CKStringUtilsTests : XCTestCase
 
+@property (nonatomic) NSString *nilString;
 @property (nonatomic) NSString *blankString;
 @property (nonatomic) NSString *emptyString;
 
@@ -24,6 +33,7 @@
 {
     [super setUp];
     
+    self.nilString = nil;
     self.emptyString = @"";
     self.blankString = @" ";
 }
@@ -647,6 +657,261 @@
     NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:string];
     
     XCTAssertEqualObjects(actualString, string);
+}
+
+#pragma mark - isValidEmailAddress:
+
+- (void)testIsEmailAddressValid_validEmailAddress
+{
+    NSArray *validEmailAddresses = @[@"email@example.com",
+                                     @"firstname.lastname@example.com",
+                                     @"email@subdomain.example.com",
+                                     @"firstname+lastname@example.com",
+                                     @"email@123.123.123.123",
+                                     @"email@[123.123.123.123]",
+                                     @"\"email\"@example.com",
+                                     @"1234567890@example.com",
+                                     @"email@example-one.com",
+                                     @"_______@example.com",
+                                     @"email@example.name",
+                                     @"email@example.museum",
+                                     @"email@example.co.jp",
+                                     @"firstname-lastname@example.com"];
+    
+    __block BOOL isValid = NO;
+    [validEmailAddresses enumerateObjectsUsingBlock:^(NSString *emailAddress, NSUInteger index, BOOL *stop) {
+        isValid = [CKStringUtils isValidEmailAddress:emailAddress];
+        if(!isValid){
+            *stop = YES;
+        }
+    }];
+    
+    XCTAssertTrue(isValid);
+}
+
+- (void)testIsEmailAddressValid_invalidEmailAddress
+{
+    NSArray *invalidEmailAddresses = @[
+                                       @"plainaddress",
+                                       @"#@%^%#$@#$@#.com",
+                                       @"@example.com",
+                                       @"Joe Smith <email@example.com>",
+                                       @"email.example.com",
+                                       @"email@example@example.com",
+                                       @".email@example.com",
+                                       @"email.@example.com",
+                                       @"email..email@example.com",
+                                       @"あいうえお@example.com",
+                                       @"email@example.com (Joe Smith)",
+                                       @"email@example",
+                                       @"email@-example.com"];
+
+    
+    __block BOOL isValid = YES;
+    [invalidEmailAddresses enumerateObjectsUsingBlock:^(NSString *emailAddress, NSUInteger index, BOOL *stop) {
+        isValid = [CKStringUtils isValidEmailAddress:emailAddress];
+        NSLog(@"valid ? %@ || %@", (isValid) ? @"Y" : @"N", emailAddress);
+        if(isValid){
+            *stop = YES;
+        }
+    }];
+    
+    XCTAssertFalse(isValid);
+}
+
+- (void)testIsEmailAddressValid_nilEmptyBlank
+{
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:nil]);
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:self.emptyString]);
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:self.blankString]);
+}
+
+#pragma mark stringByTrimmingLeadingWhitespaceCharactersInString:
+
+- (void)testStringByTrimmingLeadingWhitespaceCharactersInString_nilEmptyBlank
+{
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.emptyString], self.emptyString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.blankString], self.blankString);
+}
+
+- (void)testStringByTrimmingLeadingWhitespaceCharactersInString_leadingSpaceStrings
+{
+    NSString *testStringOne =   @" string";
+    NSString *testStringTwo =   @"  string";
+    NSString *testStringThree = @"  string";
+    NSString *testStringFour =  @"  string";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringOne], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringTwo], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringThree], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringFour], @"string");
+}
+
+- (void)testStringByTrimmingLeadingWhitespaceCharactersInString_otherSpaceStrings
+{
+    NSString *testStringOne =   @"string ";
+    NSString *testStringTwo =   @"string  ";
+    NSString *testStringThree = @"str ing";
+    NSString *testStringFour =  @"string    ";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringOne], testStringOne);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringTwo], testStringTwo);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringThree], testStringThree);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringFour], testStringFour);
+}
+
+#pragma mark stringByTrimmingTrailingWhitespaceCharactersInString:
+
+- (void)testStringByTrimmingTrailingWhitespaceCharactersInString_nilEmptyBlank
+{
+    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
+}
+
+- (void)testStringByTrimmingTrailingWhitespaceCharactersInString_leadingSpaceStrings
+{
+    NSString *testStringOne =   @"string ";
+    NSString *testStringTwo =   @"string  ";
+    NSString *testStringThree = @"string   ";
+    NSString *testStringFour =  @"string    ";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringOne], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringTwo], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringThree], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringFour], @"string");
+}
+
+- (void)testStringByTrimmingTrailingWhitespaceCharactersInString_otherSpaceStrings
+{
+    NSString *testStringOne =   @" string";
+    NSString *testStringTwo =   @"  string";
+    NSString *testStringThree = @"str ing";
+    NSString *testStringFour =  @"  string";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringOne], testStringOne);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringTwo], testStringTwo);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringThree], testStringThree);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringFour], testStringFour);
+}
+
+#pragma mark stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:
+
+- (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_nilEmptyBlank
+{
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
+}
+
+- (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_leadingSpaceStrings
+{
+    NSString *testStringOne =   @"string ";
+    NSString *testStringTwo =   @" string";
+    NSString *testStringThree = @" string ";
+    NSString *testStringFour =  @"  string    ";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testStringOne], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testStringTwo], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testStringThree], @"string");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testStringFour], @"string");
+}
+
+- (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_otherSpaceStrings
+{
+    NSString *testString = @"str ing";
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testString], testString);
+}
+
+#pragma mark - stringByUrlEscapingString
+
+- (void)testStringByUrlEscapingString_illegalCharactersSet
+{
+    NSString *actual = [CKStringUtils illegalCharaterSet];
+    NSString *expected = self.illegalCharacterSet;
+    XCTAssertEqualObjects(actual, expected);
+}
+
+- (void)testStringByUrlEscapingString_encodesIllegalCharsCorrectly
+{
+    for(int i = 0; i < self.illegalCharacterSet.length; i++){
+        unichar c = [self.illegalCharacterSet characterAtIndex:i];
+        
+        NSString *illegalCharacter = [NSString stringWithFormat: @"%C", c];
+        NSString *actualCharacter = [CKStringUtils stringByUrlEscapingString:illegalCharacter];
+        
+        NSString *expectedCharacter = [self.retrieveIllegalCharacterDictionary objectForKey:illegalCharacter];
+        
+        XCTAssertEqualObjects(actualCharacter, expectedCharacter);
+    }
+}
+
+- (void)testStringByUrlEscapingString_testDoesStringContainIllegalHttpCharactersWithIllegalCharacters
+{
+    for(int i = 0; i < self.illegalCharacterSet.length; i++){
+        unichar c = [self.illegalCharacterSet characterAtIndex:i];
+        NSString *illegalCharacter = [NSString stringWithFormat: @"%C", c];
+        
+        XCTAssertTrue([CKStringUtils doesStringContainIllegalUrlCharacters:illegalCharacter]);
+    }
+}
+
+- (void)testStringByUrlEscapingString_testDoesStringContainIllegalHttpCharactersWithLegalCharacters
+{
+    NSString *validCharacters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-.\\_";
+    
+    for(int i = 0; i < validCharacters.length; i++){
+        unichar c = [validCharacters characterAtIndex:i];
+        NSString *legalCharacter = [NSString stringWithFormat: @"%C", c];
+        
+        XCTAssertFalse([CKStringUtils doesStringContainIllegalUrlCharacters:legalCharacter]);
+    }
+}
+
+- (void)testStringByUrlEscapingString_testUrlSafeStringRetrunsEncodedString
+{
+    for (NSString *illegalString in self.retrieveIllegalCharacterDictionary.allKeys){
+        NSString *encodedString = self.retrieveIllegalCharacterDictionary[illegalString];
+        XCTAssertEqualObjects([CKStringUtils stringByUrlEscapingString:illegalString], encodedString);
+    }
+}
+
+- (void)testStringByUrlEscapingString_returnOriginalIfNilEmtpyOrBlank
+{
+    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.emptyString], self.emptyString);
+    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.blankString], self.blankString);
+}
+
+#pragma mark - Test Helpers
+
+- (NSString *)illegalCharacterSet
+{
+    return @"!*'();:@&=+@,/?#[]";
+}
+
+- (NSDictionary *)retrieveIllegalCharacterDictionary
+{
+    return @{   @"!":@"%21",
+                @"*":@"%2A",
+                @"'":@"%27",
+                @"(":@"%28",
+                @")":@"%29",
+                @";":@"%3B",
+                @":":@"%3A",
+                @"@":@"%40",
+                @"&":@"%26",
+                @"=":@"%3D",
+                @"+":@"%2B",
+                @"@":@"%40",
+                @",":@"%2C",
+                @"/":@"%2F",
+                @"?":@"%3F",
+                @"#":@"%23",
+                @"[":@"%5B",
+                @"]":@"%5D"};
 }
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "CKStringUtils.h"
+#import "NSData+Base64.h"
+
+static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
 @implementation CKStringUtils
 
@@ -230,6 +233,80 @@
 + (NSCharacterSet *)alphaNumericInvertedCharacterSet
 {
     return [self.alphaNumericCharacterSet invertedSet];
+}
+
+#pragma mark - isValidEmailAddress:
+
++ (BOOL)isValidEmailAddress:(NSString *)emailAddress
+{
+    if([self isEmpty:emailAddress]){
+        return NO;
+    }
+    
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", kEmailRegex];
+    return [emailTest evaluateWithObject:emailAddress];
+}
+
+#pragma mark stringByTrimmingLeadingWhitespaceCharactersInString:
+
++ (NSString *)stringByTrimmingLeadingWhitespaceCharactersInString:(NSString *)string
+{
+    if([self isBlank:string]){
+        return string;
+    }
+    
+    NSRange rangeOfFirstWantedCharacter = [string rangeOfCharacterFromSet:[NSCharacterSet.whitespaceCharacterSet invertedSet]];
+    return (rangeOfFirstWantedCharacter.location == NSNotFound) ? string : [string substringFromIndex:rangeOfFirstWantedCharacter.location];
+}
+
+#pragma mark stringByTrimmingTrailingWhitespaceCharactersInString
+
++ (NSString *)stringByTrimmingTrailingWhitespaceCharactersInString:(NSString *)string
+{
+    if([self isBlank:string]){
+        return string;
+    }
+    
+    NSRange rangeOfLastWantedCharacter = [string rangeOfCharacterFromSet:[NSCharacterSet.whitespaceCharacterSet invertedSet]
+                                                                 options:NSBackwardsSearch];
+    return (rangeOfLastWantedCharacter.location == NSNotFound) ? string : [string substringToIndex:rangeOfLastWantedCharacter.location+1];
+}
+
+#pragma mark stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:
+
++ (NSString *)stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:(NSString *)string
+{
+    NSString *leadingWhitespaceTrimmedString = [self stringByTrimmingLeadingWhitespaceCharactersInString:string];
+    return [self stringByTrimmingTrailingWhitespaceCharactersInString:leadingWhitespaceTrimmedString];
+}
+
+#pragma mark stringByUrlEscapingString:
+
++ (NSString *)stringByUrlEscapingString:(NSString *)string
+{
+    if([CKStringUtils isBlank:string]){
+        return string;
+    }
+    
+    return [self doesStringContainIllegalUrlCharacters:string] ? [self stringByUrlEncodingString:string] : string;
+}
+
+#pragma mark - Helpers
+
++ (NSString *)stringByUrlEncodingString:(NSString *)string
+{
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)(string),
+                                                                     NULL, (__bridge CFStringRef)self.illegalCharaterSet, kCFStringEncodingUTF8));
+}
+
++ (BOOL)doesStringContainIllegalUrlCharacters:(NSString *)string
+{
+    return ([string rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:self.illegalCharaterSet]].location != NSNotFound);
+}
+
++ (NSString *)illegalCharaterSet
+{
+    return @"!*'();:@&=+@,/?#[]";
 }
 
 @end
