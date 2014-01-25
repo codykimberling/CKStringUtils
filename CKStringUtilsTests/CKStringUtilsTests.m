@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import "CKStringUtils.h"
-#import "OCMock.h"
 
 @interface CKStringUtils (TestHelper)
 
