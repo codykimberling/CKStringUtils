@@ -18,6 +18,7 @@
 
 @interface CKStringUtilsTests : XCTestCase
 
+@property (nonatomic) id nsNull;
 @property (nonatomic) NSString *nilString;
 @property (nonatomic) NSString *blankString;
 @property (nonatomic) NSString *emptyString;
@@ -32,6 +33,7 @@
 {
     [super setUp];
     
+    self.nsNull = NSNull.null;
     self.nilString = nil;
     self.emptyString = @"";
     self.blankString = @" ";
@@ -41,8 +43,9 @@
 
 - (void)testIsNil_nil
 {
-    XCTAssertTrue([CKStringUtils isNil:nil]);
-    XCTAssertFalse([CKStringUtils isNotNil:nil]);
+    XCTAssertTrue([CKStringUtils isNil:self.nsNull]);
+    XCTAssertTrue([CKStringUtils isNil:self.nilString]);
+    XCTAssertFalse([CKStringUtils isNotNil:self.nilString]);
 }
 
 - (void)testIsNil_blank
@@ -61,8 +64,9 @@
 
 - (void)testIsEmpty_nil
 {
-    XCTAssertTrue([CKStringUtils isEmpty:nil]);
-    XCTAssertFalse([CKStringUtils isNotEmpty:nil]);
+    XCTAssertTrue([CKStringUtils isEmpty:self.nsNull]);
+    XCTAssertTrue([CKStringUtils isEmpty:self.nilString]);
+    XCTAssertFalse([CKStringUtils isNotEmpty:self.nilString]);
 }
 
 - (void)testIsEmpty_blankString
@@ -93,8 +97,9 @@
 
 - (void)testIsBlank_nil
 {
-    XCTAssertTrue([CKStringUtils isBlank:nil]);
-    XCTAssertFalse([CKStringUtils isNotBlank:nil]);
+    XCTAssertTrue([CKStringUtils isBlank:self.nsNull]);
+    XCTAssertTrue([CKStringUtils isBlank:self.nilString]);
+    XCTAssertFalse([CKStringUtils isNotBlank:self.nilString]);
 }
 
 - (void)testIsBlank_blank
@@ -132,7 +137,8 @@
 
 - (void)testIsAllLowerCase_nil
 {
-    XCTAssertFalse([CKStringUtils isAllLowerCase:nil]);
+    XCTAssertFalse([CKStringUtils isAllLowerCase:self.nsNull]);
+    XCTAssertFalse([CKStringUtils isAllLowerCase:self.nilString]);
 }
 
 - (void)testIsAllLowerCase_blank
@@ -174,7 +180,8 @@
 
 - (void)testIsAllUpperCase_nil
 {
-    XCTAssertFalse([CKStringUtils isAllUpperCase:nil]);
+    XCTAssertFalse([CKStringUtils isAllUpperCase:self.nsNull]);
+    XCTAssertFalse([CKStringUtils isAllUpperCase:self.nilString]);
 }
 
 - (void)testIsAllUpperCase_blank
@@ -216,7 +223,8 @@
 
 - (void)testIsAlpha_nil
 {
-    XCTAssertFalse([CKStringUtils isAlpha:nil]);
+    XCTAssertFalse([CKStringUtils isAlpha:self.nsNull]);
+    XCTAssertFalse([CKStringUtils isAlpha:self.nilString]);
 }
 
 - (void)testIsAlpha_blank
@@ -263,7 +271,8 @@
 
 - (void)testIsNumeric_nil
 {
-    XCTAssertFalse([CKStringUtils isNumeric:nil]);
+    XCTAssertFalse([CKStringUtils isNumeric:self.nsNull]);
+    XCTAssertFalse([CKStringUtils isNumeric:self.nilString]);
 }
 
 - (void)testIsNumeric_blank
@@ -295,7 +304,8 @@
 
 - (void)testIsAlphaNumeric_nil
 {
-    XCTAssertFalse([CKStringUtils isAlphaNumeric:nil]);
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:self.nsNull]);
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:self.nilString]);
 }
 
 - (void)testIsAlphaNumeric_blank
@@ -342,26 +352,42 @@
 
 - (void)testContainsString_nilString
 {
-    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value" ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:nil containsString:@"some value" ignoreCase:YES]);
-    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value" ignoreCase:NO]);
-    XCTAssertTrue([CKStringUtils string:nil doesNotContainString:@"some value" ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:self.nilString containsString:@"some value" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nilString containsString:@"some value" ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:self.nilString doesNotContainString:@"some value" ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nilString doesNotContainString:@"some value" ignoreCase:YES]);
+    
+    XCTAssertFalse([CKStringUtils string:self.nsNull containsString:@"some value" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nsNull containsString:@"some value" ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:self.nsNull doesNotContainString:@"some value" ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nsNull doesNotContainString:@"some value" ignoreCase:YES]);
 }
 
 - (void)testContainsString_nilSearchString
 {
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:@"test" containsString:nil ignoreCase:YES]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil ignoreCase:NO]);
-    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:nil ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.nilString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.nilString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.nilString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.nilString ignoreCase:YES]);
+
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.nsNull ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" containsString:self.nsNull ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.nsNull ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:@"test" doesNotContainString:self.nsNull ignoreCase:YES]);
+    
 }
 
 - (void)testContainsString_bothNil
 {
-    XCTAssertTrue([CKStringUtils string:nil containsString:nil ignoreCase:NO]);
-    XCTAssertTrue([CKStringUtils string:nil containsString:nil ignoreCase:YES]);
-    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:nil doesNotContainString:nil ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:self.nilString containsString:self.nilString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nilString containsString:self.nilString ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:self.nilString doesNotContainString:self.nilString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nilString doesNotContainString:self.nilString ignoreCase:YES]);
+    
+    XCTAssertTrue([CKStringUtils string:self.nsNull containsString:self.nsNull ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nsNull containsString:self.nsNull ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:self.nsNull doesNotContainString:self.nsNull ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nsNull doesNotContainString:self.nsNull ignoreCase:YES]);
 }
 
 - (void)testContainsString_blankString
@@ -417,20 +443,29 @@
 
 - (void)testStringEqualsString_bothNil
 {
-    XCTAssertTrue([CKStringUtils string:nil equalsString:nil ignoreCase:NO]);
-    XCTAssertTrue([CKStringUtils string:nil equalsString:nil ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:self.nilString equalsString:self.nilString ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nilString equalsString:self.nilString ignoreCase:YES]);
+    
+    XCTAssertTrue([CKStringUtils string:self.nsNull equalsString:self.nsNull ignoreCase:NO]);
+    XCTAssertTrue([CKStringUtils string:self.nsNull equalsString:self.nsNull ignoreCase:YES]);
 }
 
 - (void)testStringEqualsString_firstArgNil
 {
-    XCTAssertFalse([CKStringUtils string:nil equalsString:@"test" ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:nil equalsString:@"test" ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:self.nilString equalsString:@"test" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nilString equalsString:@"test" ignoreCase:YES]);
+    
+    XCTAssertFalse([CKStringUtils string:self.nsNull equalsString:@"test" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:self.nsNull equalsString:@"test" ignoreCase:YES]);
 }
 
 - (void)testStringEqualsString_secondArgNil
 {
-    XCTAssertFalse([CKStringUtils string:@"test" equalsString:nil ignoreCase:NO]);
-    XCTAssertFalse([CKStringUtils string:@"test" equalsString:nil ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:@"test" equalsString:self.nilString ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" equalsString:self.nilString ignoreCase:YES]);
+    
+    XCTAssertFalse([CKStringUtils string:@"test" equalsString:self.nsNull ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" equalsString:self.nsNull ignoreCase:YES]);
 }
 
 - (void)testStringEqualsString_equalValueStrings
@@ -456,8 +491,11 @@
 
 - (void)testAbbreviate_nil
 {
-    NSString *actual = [CKStringUtils abbreviate:nil maxWidth:3];
-    XCTAssertNil(actual);
+    NSString *actualNil = [CKStringUtils abbreviate:self.nilString maxWidth:3];
+    XCTAssertNil(actualNil);
+    
+    NSString *actualNull = [CKStringUtils abbreviate:self.nsNull maxWidth:3];
+    XCTAssertNil(actualNull);
 }
 
 - (void)testAbbreviate_blank
@@ -499,25 +537,31 @@
 {
     NSString *defaultString = @"default";
     
-    NSString *actualString = [CKStringUtils defaultString:defaultString forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultString:defaultString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultString:defaultString forString:self.nsNull];
     
-    XCTAssertEqualObjects(actualString, defaultString);
+    XCTAssertEqualObjects(actualStringNil, defaultString);
+    XCTAssertEqualObjects(actualStringNull, defaultString);
 }
 
 - (void)testDefaultString_nilString
 {
     NSString *string = @"string";
     
-    NSString *actualString = [CKStringUtils defaultString:nil forString:string];
+    NSString *actualStringNil = [CKStringUtils defaultString:self.nilString forString:string];
+    NSString *actualStringNull = [CKStringUtils defaultString:self.nilString forString:string];
     
-    XCTAssertEqualObjects(actualString, string);
+    XCTAssertEqualObjects(actualStringNil, string);
+    XCTAssertEqualObjects(actualStringNull, string);
 }
 
 - (void)testDefaultString_bothArugmentsNil
 {
-    NSString *actualString = [CKStringUtils defaultString:nil forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultString:self.nilString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultString:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualString);
+    XCTAssertNil(actualStringNil);
+    XCTAssertTrue(actualStringNull == (id)NSNull.null);
 }
 
 - (void)testDefaultString_blank
@@ -554,25 +598,31 @@
 {
     NSString *defaultString = @"default";
     
-    NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfEmpty:defaultString forString:self.nsNull];
     
-    XCTAssertEqualObjects(actualString, defaultString);
+    XCTAssertEqualObjects(actualStringNil, defaultString);
+    XCTAssertEqualObjects(actualStringNull, defaultString);
 }
 
 - (void)testDefaultStringIfEmpty_nilString
 {
     NSString *string = @"string";
     
-    NSString *actualString = [CKStringUtils defaultStringIfEmpty:nil forString:string];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfEmpty:self.nilString forString:string];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfEmpty:self.nsNull forString:string];
     
-    XCTAssertEqualObjects(actualString, string);
+    XCTAssertEqualObjects(actualStringNil, string);
+    XCTAssertEqualObjects(actualStringNull, string);
 }
 
 - (void)testDefaultStringIfEmpty_bothArugmentsNil
 {
-    NSString *actualString = [CKStringUtils defaultStringIfEmpty:nil forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfEmpty:self.nilString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfEmpty:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualString);
+    XCTAssertNil(actualStringNil);
+    XCTAssertTrue(actualStringNull == (id)NSNull.null);
 }
 
 - (void)testDefaultStringIfEmpty_blank
@@ -609,25 +659,31 @@
 {
     NSString *defaultString = @"default";
     
-    NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfBlank:defaultString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfBlank:defaultString forString:self.nsNull];
     
-    XCTAssertEqualObjects(actualString, defaultString);
+    XCTAssertEqualObjects(actualStringNil, defaultString);
+    XCTAssertEqualObjects(actualStringNull, defaultString);
 }
 
 - (void)testDefaultStringIfBlank_nilString
 {
     NSString *string = @"string";
     
-    NSString *actualString = [CKStringUtils defaultStringIfBlank:nil forString:string];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfBlank:self.nilString forString:string];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfBlank:self.nsNull forString:string];
     
-    XCTAssertEqualObjects(actualString, string);
+    XCTAssertEqualObjects(actualStringNil, string);
+    XCTAssertEqualObjects(actualStringNull, string);
 }
 
 - (void)testDefaultStringIfBlank_bothArugmentsNil
 {
-    NSString *actualString = [CKStringUtils defaultStringIfBlank:nil forString:nil];
+    NSString *actualStringNil = [CKStringUtils defaultStringIfBlank:self.nilString forString:self.nilString];
+    NSString *actualStringNull = [CKStringUtils defaultStringIfBlank:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualString);
+    XCTAssertNil(actualStringNil);
+    XCTAssertTrue(actualStringNull == (id)NSNull.null);
 }
 
 - (void)testDefaultStringIfBlank_blank
@@ -720,7 +776,8 @@
 
 - (void)testIsEmailAddressValid_nilEmptyBlank
 {
-    XCTAssertFalse([CKStringUtils isValidEmailAddress:nil]);
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:self.nilString]);
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:self.nsNull]);
     XCTAssertFalse([CKStringUtils isValidEmailAddress:self.emptyString]);
     XCTAssertFalse([CKStringUtils isValidEmailAddress:self.blankString]);
 }
@@ -730,6 +787,7 @@
 - (void)testStringByTrimmingLeadingWhitespaceCharactersInString_nilEmptyBlank
 {
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nsNull], self.nsNull);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -765,6 +823,7 @@
 - (void)testStringByTrimmingTrailingWhitespaceCharactersInString_nilEmptyBlank
 {
     XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nsNull], self.nsNull);
     XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -800,6 +859,7 @@
 - (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_nilEmptyBlank
 {
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nsNull], self.nsNull);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -880,6 +940,7 @@
 - (void)testStringByUrlEscapingString_returnOriginalIfNilEmtpyOrBlank
 {
     XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.nilString], self.nilString);
+    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.nsNull], self.nsNull);
     XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.blankString], self.blankString);
 }

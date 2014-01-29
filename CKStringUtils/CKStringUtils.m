@@ -16,7 +16,7 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (BOOL)isNil:(NSString *)string
 {
-    return (string == nil);
+    return (string == nil) || (string == (id)NSNull.null);
 }
 
 #pragma mark - isNil:
@@ -120,6 +120,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 {
     if(string1 == string2){
         return YES;
+    }
+    
+    if(string1 == (id)NSNull.null || string2 == (id)NSNull.null){
+        return NO;
     }
     
     return ignoreCase ? [string1.lowercaseString isEqualToString:string2.lowercaseString] : [string1 isEqualToString:string2];
