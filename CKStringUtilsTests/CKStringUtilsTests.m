@@ -731,6 +731,7 @@
                                      @"email@example.name",
                                      @"email@example.museum",
                                      @"email@example.co.jp",
+                                     @"UpperCase@example.com",
                                      @"firstname-lastname@example.com"];
     
     __block BOOL isValid = NO;

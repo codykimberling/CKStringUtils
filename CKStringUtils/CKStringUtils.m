@@ -246,8 +246,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
         return NO;
     }
     
+    NSString *lowerCaseEmailAddress = emailAddress.lowercaseString;
+    
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", kEmailRegex];
-    return [emailTest evaluateWithObject:emailAddress];
+    return [emailTest evaluateWithObject:lowerCaseEmailAddress];
 }
 
 #pragma mark stringByTrimmingLeadingWhitespaceCharactersInString:
