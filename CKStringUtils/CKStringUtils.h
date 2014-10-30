@@ -28,7 +28,7 @@
  *
  *  @param string string to check for nil or [NSNull null]
  *
- *  @return Returns YES if nil or [NSNull null], NO otherwise.
+ *  @return Returns YES if nil, [NSNull null] or if argument is a non-string argument. NO otherwise.
  */
 
 + (BOOL)isNil:(NSString *)string;
@@ -40,7 +40,7 @@
  *
  *  @param string string to check for nil or [NSNull null]
  *
- *  @return Returns NO if nil or [NSNull null], YES otherwise.
+ *  @return Returns NO if nil, [NSNull null], or if argument is a non-string argument. YES otherwise.
  */
 
 + (BOOL)isNotNil:(NSString *)string;
@@ -52,7 +52,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return Returns YES is string is empty, nil, or [NSNull null], NO otherwise.
+ *  @return Returns YES is string is empty, nil, [NSNull null], or if argument is a non-string argument. NO otherwise.
  */
 
 + (BOOL)isEmpty:(NSString *)string;
@@ -64,7 +64,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return Returns NO is string is empty, nil or [NSNull null], YES otherwise.
+ *  @return Returns NO is string is empty, nil, [NSNull null], or if argument is a non-string argument. YES otherwise.
  */
 
 + (BOOL)isNotEmpty:(NSString *)string;
@@ -76,7 +76,7 @@
  *
  *  @param string string to check for blank value
  *
- *  @return Returns YES is string is nil, [NSNull null], empty, or blank.  Returns NO otherwise.
+ *  @return Returns YES is string is nil, [NSNull null], empty, blank, or if argument is a non-string argument. Returns NO otherwise.
  */
 
 + (BOOL)isBlank:(NSString *)string;
@@ -88,7 +88,7 @@
  *
  *  @param string string to check for blank value
  *
- *  @return Returns NO is string is nil, [NSNull null], empty, or blank.  Returns YES otherwise.
+ *  @return Returns NO is string is nil, [NSNull null], empty, blank, or if argument is a non-string argument.  Returns YES otherwise.
  */
 
 + (BOOL)isNotBlank:(NSString *)string;

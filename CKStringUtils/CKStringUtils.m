@@ -30,7 +30,11 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (BOOL)isEmpty:(NSString *)string
 {
-    return ([self isNil:string] || string.length == 0);
+    if ([self isNil:string]) {
+        return YES;
+    }
+    
+    return ([self isString:string] && string.length == 0);
 }
 
 #pragma mark - isNotEmpty:
@@ -44,7 +48,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (BOOL)isBlank:(NSString *)string
 {
-    return ([self isEmpty:string]) ? YES : [self isEmpty:[self stringWithWhitespacesStripped:string]];
+    if ([self isEmpty:string]) {
+        return YES;
+    }
+    return ([self isString:string] && [self isEmpty:[self stringWithWhitespacesStripped:string]]);
 }
 
 #pragma mark - isNotBlank:
@@ -58,35 +65,35 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (BOOL)isAllLowerCase:(NSString *)string
 {
-    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.lowerCaseInvertedSet].location == NSNotFound);
+    return (![CKStringUtils isString:string] || [CKStringUtils isBlank:string]) ? NO : ([string rangeOfCharacterFromSet:self.lowerCaseInvertedSet].location == NSNotFound);
 }
 
 #pragma mark - isAllUpperCase:
 
 + (BOOL)isAllUpperCase:(NSString *)string
 {
-    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.upperCaseInvertedSet].location == NSNotFound);
+    return (![CKStringUtils isString:string] || [CKStringUtils isBlank:string]) ? NO : ([string rangeOfCharacterFromSet:self.upperCaseInvertedSet].location == NSNotFound);
 }
 
 #pragma mark - isAlpha:
 
 + (BOOL)isAlpha:(NSString *)string
 {
-    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.lowerAndUpperCaseInvertedSet].location == NSNotFound);
+    return (![CKStringUtils isString:string] || [CKStringUtils isBlank:string]) ? NO : ([string rangeOfCharacterFromSet:self.lowerAndUpperCaseInvertedSet].location == NSNotFound);
 }
 
 #pragma mark - isNumeric:
 
 + (BOOL)isNumeric:(NSString *)string
 {
-    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.decimalDigitInvertedCharacterSet].location == NSNotFound);
+    return (![CKStringUtils isString:string] || [CKStringUtils isBlank:string]) ? NO : ([string rangeOfCharacterFromSet:self.decimalDigitInvertedCharacterSet].location == NSNotFound);
 }
 
 #pragma mark - isAlphanumeric:
 
 + (BOOL)isAlphaNumeric:(NSString *)string
 {
-    return [CKStringUtils isBlank:string] ? NO : ([string rangeOfCharacterFromSet:self.alphaNumericInvertedCharacterSet].location == NSNotFound);
+    return (![CKStringUtils isString:string] || [CKStringUtils isBlank:string]) ? NO : ([string rangeOfCharacterFromSet:self.alphaNumericInvertedCharacterSet].location == NSNotFound);
 }
 
 #pragma mark - string: containsString:
@@ -101,10 +108,13 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
         return NO;
     }
     
-    NSString *stringToSearch = (ignoreCase) ? string.lowercaseString : string;
-    NSString *queryString = (ignoreCase) ? searchString.lowercaseString : searchString;
-    
-    return !([stringToSearch rangeOfString:queryString].location == NSNotFound);
+    if ([CKStringUtils isString:string] && [CKStringUtils isString:searchString]) {
+        NSString *stringToSearch = (ignoreCase) ? string.lowercaseString : string;
+        NSString *queryString = (ignoreCase) ? searchString.lowercaseString : searchString;
+        
+        return !([stringToSearch rangeOfString:queryString].location == NSNotFound);
+    }
+    return NO;
 }
 
 #pragma mark - string: doesNotContainString:
@@ -126,6 +136,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
         return NO;
     }
     
+    if (![CKStringUtils isString:string1] || ![CKStringUtils isString:string2]) {
+        return NO;
+    }
+    
     return ignoreCase ? [string1.lowercaseString isEqualToString:string2.lowercaseString] : [string1 isEqualToString:string2];
 }
 
@@ -133,21 +147,33 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string
 {
-    return [self isNil:string] ? defaultString : string;
+    if ([self isNil:string]) {
+        return [self isString:defaultString] ? defaultString : @"";
+    }
+    
+    return ![self isString:string] ? @"" : string;
 }
 
 #pragma mark - defaultStringIfEmpty: forString:
 
 + (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string
 {
-    return [self isEmpty:string] ? defaultString : string;
+    if ([self isEmpty:string]) {
+        return [self isString:defaultString] ? defaultString : @"";
+    }
+    
+    return ![self isString:string] ? @"" : string;
 }
 
 #pragma mark - defaultStringIfBlank: forString:
 
 + (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string
 {
-    return [self isBlank:string] ? defaultString : string;
+    if ([self isBlank:string]) {
+        return [self isString:defaultString] ? defaultString : @"";
+    }
+    
+    return ![self isString:string] ? @"" : string;
 }
 
 #pragma mark - abbreviate: maxWidth:
@@ -158,6 +184,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
     
     if([self isNil:string]){
         return nil;
+    }
+    
+    if (![self isString:string]) {
+        return @"";
     }
     
     if([self isEmpty:string]){
@@ -242,7 +272,7 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (BOOL)isValidEmailAddress:(NSString *)emailAddress
 {
-    if([self isEmpty:emailAddress]){
+    if([self isEmpty:emailAddress] || ![self isString:emailAddress]){
         return NO;
     }
     
@@ -256,6 +286,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (NSString *)stringByTrimmingLeadingWhitespaceCharactersInString:(NSString *)string
 {
+    if (![self isString:string]) {
+        return @"";
+    }
+    
     if([self isBlank:string]){
         return string;
     }
@@ -268,6 +302,10 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (NSString *)stringByTrimmingTrailingWhitespaceCharactersInString:(NSString *)string
 {
+    if (![self isString:string]) {
+        return @"";
+    }
+    
     if([self isBlank:string]){
         return string;
     }
@@ -289,8 +327,8 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 
 + (NSString *)stringByUrlEscapingString:(NSString *)string
 {
-    if([CKStringUtils isBlank:string]){
-        return string;
+    if([CKStringUtils isBlank:string] || ![self isString:string]){
+        return [self isString:string] ? string : @"";
     }
     
     return [self doesStringContainIllegalUrlCharacters:string] ? [self stringByUrlEncodingString:string] : string;
@@ -312,6 +350,11 @@ static NSString *kEmailRegex = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$
 + (NSString *)illegalCharaterSet
 {
     return @"!*'();:@&=+@,/?#[]";
+}
+
++ (BOOL)isString:(id)obj
+{
+    return [obj isKindOfClass:[NSString class]];
 }
 
 @end

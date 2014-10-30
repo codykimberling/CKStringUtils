@@ -176,6 +176,12 @@
     XCTAssertFalse([CKStringUtils isAllLowerCase:@"abc%$#"]);
 }
 
+- (void)testIsAllLowerCase_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isAllLowerCase:nonString]);
+}
+
 #pragma mark - isAllUpperCase:
 
 - (void)testIsAllUpperCase_nil
@@ -217,6 +223,12 @@
 - (void)testIsAllUpperCase_lowerCaseWithSpecialCharacters
 {
     XCTAssertFalse([CKStringUtils isAllUpperCase:@"ABC%$#"]);
+}
+
+- (void)testIsAllUpperCase_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isAllUpperCase:nonString]);
 }
 
 #pragma mark - isAlpha:
@@ -267,6 +279,12 @@
     XCTAssertFalse([CKStringUtils isAlpha:@"aBc$%^"]);
 }
 
+- (void)testIsAlpha_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isAlpha:nonString]);
+}
+
 #pragma mark - isNumeric:
 
 - (void)testIsNumeric_nil
@@ -298,6 +316,12 @@
 - (void)testIsNumeric_numericMixedWithAlphas
 {
     XCTAssertFalse([CKStringUtils isNumeric:@"123aBc"]);
+}
+
+- (void)testIsNumeric_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isNumeric:nonString]);
 }
 
 #pragma mark - isAlphaNumeric:
@@ -346,6 +370,12 @@
 - (void)testIsAlphaNumeric_numericMixedWithAlphas
 {
     XCTAssertTrue([CKStringUtils isAlphaNumeric:@"123aBc"]);
+}
+
+- (void)testIsAlphaNumeric_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isAlphaNumeric:nonString]);
 }
 
 #pragma mark - string: containsString:
@@ -439,6 +469,18 @@
     XCTAssertFalse([CKStringUtils string:string doesNotContainString:searchString ignoreCase:YES]);
 }
 
+- (void)testContainsString_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils string:nonString containsString:@"some value" ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:@"some value" containsString:nonString ignoreCase:YES]);
+    XCTAssertFalse([CKStringUtils string:nonString containsString:nonString ignoreCase:YES]);
+    
+    XCTAssertTrue([CKStringUtils string:nonString doesNotContainString:@"some value" ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:@"some value" doesNotContainString:nonString ignoreCase:YES]);
+    XCTAssertTrue([CKStringUtils string:nonString doesNotContainString:nonString ignoreCase:YES]);
+}
+
 #pragma mark - string: equalsString:
 
 - (void)testStringEqualsString_bothNil
@@ -487,6 +529,13 @@
     XCTAssertTrue([CKStringUtils string:@"test" equalsString:@"TEST" ignoreCase:YES]);
 }
 
+- (void)testStringEqualsString_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils string:nonString equalsString:@"TEST" ignoreCase:NO]);
+    XCTAssertFalse([CKStringUtils string:@"test" equalsString:nonString ignoreCase:YES]);
+}
+
 #pragma mark - abbreviate: maxWidth:
 
 - (void)testAbbreviate_nil
@@ -531,6 +580,13 @@
     XCTAssertEqualObjects(actual, sourceString);
 }
 
+- (void)testAbbreviate_nonString
+{
+    id nonString = @(1);
+    NSString *actual = [CKStringUtils abbreviate:nonString maxWidth:3];
+    XCTAssertEqualObjects(actual, @"");
+}
+
 #pragma mark - defaultString: forString:
 
 - (void)testDefaultString_nilDefaultString
@@ -560,8 +616,8 @@
     NSString *actualStringNil = [CKStringUtils defaultString:self.nilString forString:self.nilString];
     NSString *actualStringNull = [CKStringUtils defaultString:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualStringNil);
-    XCTAssertTrue(actualStringNull == (id)NSNull.null);
+    XCTAssertEqualObjects(actualStringNil, @"");
+    XCTAssertEqualObjects(actualStringNull, @"");
 }
 
 - (void)testDefaultString_blank
@@ -590,6 +646,16 @@
     NSString *actualString = [CKStringUtils defaultString:defaultString forString:string];
     
     XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultString_nonString
+{
+    id nonString = @(1);
+    NSString *string = @"string";
+    
+    XCTAssertEqualObjects([CKStringUtils defaultString:nonString forString:string], string);
+    XCTAssertEqualObjects([CKStringUtils defaultString:string forString:nonString], @"");
+    XCTAssertEqualObjects([CKStringUtils defaultString:nonString forString:nonString], @"");
 }
 
 #pragma mark - defaultStringIfEmpty: forString:
@@ -621,8 +687,8 @@
     NSString *actualStringNil = [CKStringUtils defaultStringIfEmpty:self.nilString forString:self.nilString];
     NSString *actualStringNull = [CKStringUtils defaultStringIfEmpty:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualStringNil);
-    XCTAssertTrue(actualStringNull == (id)NSNull.null);
+    XCTAssertEqualObjects(actualStringNil, @"");
+    XCTAssertEqualObjects(actualStringNull, @"");
 }
 
 - (void)testDefaultStringIfEmpty_blank
@@ -651,6 +717,16 @@
     NSString *actualString = [CKStringUtils defaultStringIfEmpty:defaultString forString:string];
     
     XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultStringIfEmpty_nonString
+{
+    id nonString = @(1);
+    NSString *string = @"string";
+    
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfEmpty:nonString forString:string], string);
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfEmpty:string forString:nonString], @"");
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfEmpty:nonString forString:nonString], @"");
 }
 
 #pragma mark - defaultStringIfBlank: forString:
@@ -682,8 +758,8 @@
     NSString *actualStringNil = [CKStringUtils defaultStringIfBlank:self.nilString forString:self.nilString];
     NSString *actualStringNull = [CKStringUtils defaultStringIfBlank:self.nsNull forString:self.nsNull];
     
-    XCTAssertNil(actualStringNil);
-    XCTAssertTrue(actualStringNull == (id)NSNull.null);
+    XCTAssertEqualObjects(actualStringNil, @"");
+    XCTAssertEqualObjects(actualStringNull, @"");
 }
 
 - (void)testDefaultStringIfBlank_blank
@@ -712,6 +788,16 @@
     NSString *actualString = [CKStringUtils defaultStringIfBlank:defaultString forString:string];
     
     XCTAssertEqualObjects(actualString, string);
+}
+
+- (void)testDefaultStringIfBlank_nonString
+{
+    id nonString = @(1);
+    NSString *string = @"string";
+    
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfBlank:nonString forString:string], string);
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfBlank:string forString:nonString], @"");
+    XCTAssertEqualObjects([CKStringUtils defaultStringIfBlank:nonString forString:nonString], @"");
 }
 
 #pragma mark - isValidEmailAddress:
@@ -783,12 +869,18 @@
     XCTAssertFalse([CKStringUtils isValidEmailAddress:self.blankString]);
 }
 
+- (void)testIsEmailAddressValid_nonString
+{
+    id nonString = @(1);
+    XCTAssertFalse([CKStringUtils isValidEmailAddress:nonString]);
+}
+
 #pragma mark stringByTrimmingLeadingWhitespaceCharactersInString:
 
 - (void)testStringByTrimmingLeadingWhitespaceCharactersInString_nilEmptyBlank
 {
-    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nilString], self.nilString);
-    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nsNull], self.nsNull);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nilString], @"");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.nsNull], @"");
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -819,12 +911,19 @@
     XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:testStringFour], testStringFour);
 }
 
+- (void)testStringByTrimmingLeadingWhitespaceCharactersInString_nonString
+{
+    id nonString = @(1);
+
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingWhitespaceCharactersInString:nonString], @"");
+}
+
 #pragma mark stringByTrimmingTrailingWhitespaceCharactersInString:
 
 - (void)testStringByTrimmingTrailingWhitespaceCharactersInString_nilEmptyBlank
 {
-    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
-    XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nsNull], self.nsNull);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nilString], @"");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.nsNull], @"");
     XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -855,12 +954,19 @@
     XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:testStringFour], testStringFour);
 }
 
+- (void)testStringByTrimmingTrailingWhitespaceCharactersInString_nonString
+{
+    id nonString = @(1);
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingTrailingWhitespaceCharactersInString:nonString], @"");
+}
+
 #pragma mark stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:
 
 - (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_nilEmptyBlank
 {
-    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nilString], self.nilString);
-    XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nsNull], self.nsNull);
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nilString], @"");
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.nsNull], @"");
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:self.blankString], self.blankString);
 }
@@ -883,6 +989,13 @@
     NSString *testString = @"str ing";
     
     XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:testString], testString);
+}
+
+- (void)testStringByTrimmingLeadingAndTrailingWhitespaceCharactersInString_nonString
+{
+    id nonString = @(1);
+    
+    XCTAssertEqualObjects([CKStringUtils stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:nonString], @"");
 }
 
 #pragma mark - stringByUrlEscapingString
@@ -940,10 +1053,17 @@
 
 - (void)testStringByUrlEscapingString_returnOriginalIfNilEmtpyOrBlank
 {
-    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.nilString], self.nilString);
-    XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.nsNull], self.nsNull);
+    XCTAssertEqualObjects([CKStringUtils stringByUrlEscapingString:self.nilString], @"");
+    XCTAssertEqualObjects([CKStringUtils stringByUrlEscapingString:self.nsNull], @"");
     XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.emptyString], self.emptyString);
     XCTAssertEqual([CKStringUtils stringByUrlEscapingString:self.blankString], self.blankString);
+}
+
+- (void)testStringByUrlEscapingString_nonString
+{
+    id nonString = @(1);
+    
+    XCTAssertEqualObjects([CKStringUtils stringByUrlEscapingString:nonString], @"");
 }
 
 #pragma mark - Test Helpers
