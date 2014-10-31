@@ -7,7 +7,7 @@ CKStringUtils
 
 Install via Cocoapods, add a line like the one below, in your Podfile:
 
-`pod 'CKStringUtils', '~> 1.0.0'`
+`pod 'CKStringUtils', '~> 2.0.0'`
 
 Alternatively, clone this repository and add CKStringUtils.h and CKStringUtils.m to your project
 
