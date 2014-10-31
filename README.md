@@ -7,7 +7,7 @@ CKStringUtils
 
 Install via Cocoapods, add a line like the one below, in your Podfile:
 
-`pod 'CKStringUtils', '~> 2.0.0'`
+`pod 'CKStringUtils', '~> 2.0.1'`
 
 Alternatively, clone this repository and add CKStringUtils.h and CKStringUtils.m to your project
 
@@ -26,26 +26,7 @@ This source includes class docs, which can be incorporated into Xcode or Dash by
 
 *  A blank string is either an empty string of a string which contains 1 or more non-whitespace characters.
 
-__Class Methods:__
-
-	+ isNil:
-	+ isNotNil:
-	+ isEmpty:
-	+ isNotEmpty:
-	+ isBlank:
-	+ isNotBlank:
-	+ isAllLowerCase:
-	+ isAllUpperCase:
-	+ isAlpha:
-	+ isNumeric:
-	+ isAlphaNumeric:
-	+ string:equalsString:ignoreCase:
-	+ string:containsString:ignoreCase:
-	+ string:doesNotContainString:ignoreCase:
-	+ defaultString:forString:
-	+ defaultStringIfEmpty:forString:
-	+ defaultStringIfBlank:forString:
-	+ abbreviate:maxWidth:
+see http://cocoadocs.org/docsets/CKStringUtils/2.0.1/Classes/CKStringUtils.html
 
 ### License
 
