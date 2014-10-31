@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/ck/Library/Developer/Shared/Documentation/DocSets/com.codykimberling.CKStringUtils.docset
-Time: 2014-10-30 14:35:32 +0000
+Time: 2014-10-31 19:16:21 +0000

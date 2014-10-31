@@ -11,9 +11,9 @@
 /**
  *  A NSString utility class to help make working with NSStrings a little easier.
  *
- *  *  An __nil string__ is a nil or [NSNull null] value.
+ *  *  An __nil string__ is a nil or NSNull value.
  *
- *  *  An __empty string__ is a nil value, [NSNull null] value or a 0-length string.
+ *  *  An __empty string__ is a nil value, NSNull value or a 0-length string.
  *
  *  *  A __blank string__ is either an empty string of a string which contains 1 or more non-whitespace characters.
  *
@@ -24,11 +24,11 @@
 #pragma mark - isNil:
 
 /**
- *  Checks string value to determine if it is nil or [NSNull null].
+ *  Checks string value to determine if it is nil or NSNull.
  *
- *  @param string string to check for nil or [NSNull null]
+ *  @param string string to check for nil or NSNull
  *
- *  @return Returns YES if nil, [NSNull null] or if argument is a non-string argument. NO otherwise.
+ *  @return Returns YES if nil, NSNull or if argument is a non-string argument. NO otherwise.
  */
 
 + (BOOL)isNil:(NSString *)string;
@@ -36,11 +36,11 @@
 #pragma mark - isNotNil:
 
 /**
- *  Checks string value to determine if it is not nil or [NSNull null].
+ *  Checks string value to determine if it is not nil or NSNull.
  *
- *  @param string string to check for nil or [NSNull null]
+ *  @param string string to check for nil or NSNull
  *
- *  @return Returns NO if nil, [NSNull null], or if argument is a non-string argument. YES otherwise.
+ *  @return Returns NO if nil, NSNull, or if argument is a non-string argument. YES otherwise.
  */
 
 + (BOOL)isNotNil:(NSString *)string;
@@ -52,7 +52,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return Returns YES is string is empty, nil, [NSNull null], or if argument is a non-string argument. NO otherwise.
+ *  @return Returns YES is string is empty, nil, NSNull, or if argument is a non-string argument. NO otherwise.
  */
 
 + (BOOL)isEmpty:(NSString *)string;
@@ -64,7 +64,7 @@
  *
  *  @param string string to check for emtpy value
  *
- *  @return Returns NO is string is empty, nil, [NSNull null], or if argument is a non-string argument. YES otherwise.
+ *  @return Returns NO is string is empty, nil, NSNull, or if argument is a non-string argument. YES otherwise.
  */
 
 + (BOOL)isNotEmpty:(NSString *)string;
@@ -76,7 +76,7 @@
  *
  *  @param string string to check for blank value
  *
- *  @return Returns YES is string is nil, [NSNull null], empty, blank, or if argument is a non-string argument. Returns NO otherwise.
+ *  @return Returns YES is string is nil, NSNull, empty, blank, or if argument is a non-string argument. Returns NO otherwise.
  */
 
 + (BOOL)isBlank:(NSString *)string;
@@ -88,7 +88,7 @@
  *
  *  @param string string to check for blank value
  *
- *  @return Returns NO is string is nil, [NSNull null], empty, blank, or if argument is a non-string argument.  Returns YES otherwise.
+ *  @return Returns NO is string is nil, NSNull, empty, blank, or if argument is a non-string argument.  Returns YES otherwise.
  */
 
 + (BOOL)isNotBlank:(NSString *)string;
@@ -162,7 +162,7 @@
  *  @param string2    second string
  *  @param ignoreCase YES to case-insensitive compare strings
  *
- *  @return Returns YES if strings are equal (depending on ignoreCase BOOL) or if both strings are nil or [NSNull null].  Returns NO otherwise.
+ *  @return Returns YES if strings are equal (depending on ignoreCase BOOL) or if both strings are nil or NSNull.  Returns NO otherwise.
  */
 
 + (BOOL)string:(NSString *)string1 equalsString:(NSString *)string2 ignoreCase:(BOOL)ignoreCase;
@@ -176,7 +176,7 @@
  *  @param searchString search string
  *  @param ignoreCase   YES to case-insensitive compare strings
  *
- *  @return Returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil or [NSNull null], return YES.
+ *  @return Returns YES if searchString is contained within string.  Returns NO otherwise.  If both strings nil or NSNull, return YES.
  */
 
 + (BOOL)string:(NSString *)string containsString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
@@ -190,7 +190,7 @@
  *  @param searchString search string
  *  @param ignoreCase   YES to case-insensitive compare strings
  *
- *  @return Returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil or [NSNull null], return NO.
+ *  @return Returns NO if searchString is contained within string.  Returns YES otherwise. If both strings nil or NSNull, return NO.
  */
 
 + (BOOL)string:(NSString *)string doesNotContainString:(NSString *)searchString ignoreCase:(BOOL)ignoreCase;
@@ -198,12 +198,12 @@
 #pragma mark - defaultString: forString:
 
 /**
- *  Returns either string or defaultString if string is nil or [NSNull null].
+ *  Returns either string or defaultString if string is nil or NSNull.
  *
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return Returns defaultString if string is nil or [NSNull null].  Returns nil if both arguments are nil.  Returns [NSNull null] if both arguments are [NSNull null]. Returns string otherwise.
+ *  @return Returns defaultString if string is nil or NSNull.  Returns nil if both arguments are nil.  Returns NSNull if both arguments are NSNull. Returns string otherwise.
  */
 
 + (NSString *)defaultString:(NSString *)defaultString forString:(NSString *)string;
@@ -216,7 +216,7 @@
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return Returns defaultString if string is empty.  Returns nil if both arguments are nil.  Returns [NSNull null] if both arguments are [NSNull null]. Returns string otherwise.
+ *  @return Returns defaultString if string is empty.  Returns nil if both arguments are nil.  Returns NSNull if both arguments are NSNull. Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfEmpty:(NSString *)defaultString forString:(NSString *)string;
@@ -229,7 +229,7 @@
  *  @param defaultString default string
  *  @param string        string to check
  *
- *  @return Returns defaultString if string is blank.  Returns nil if both arguments are nil.  Returns [NSNull null] if both arguments are [NSNull null]. Returns string otherwise.
+ *  @return Returns defaultString if string is blank.  Returns nil if both arguments are nil.  Returns NSNull if both arguments are NSNull. Returns string otherwise.
  */
 
 + (NSString *)defaultStringIfBlank:(NSString *)defaultString forString:(NSString *)string;
@@ -271,7 +271,7 @@
  *
  *  @param string String to trim
  *
- *  @return Returns trimmed string (leading spaces).  If string is empty, nil or [NSNull null], return string.
+ *  @return Returns trimmed string (leading spaces).  If string is empty, nil or NSNull, return string.
  */
 
 + (NSString *)stringByTrimmingLeadingWhitespaceCharactersInString:(NSString *)string;
@@ -283,7 +283,7 @@
  *
  *  @param string String to trim
  *
- *  @return Returns trimmed string (trailing spaces).  If string is empty, nil, or [NSNull null] return string.
+ *  @return Returns trimmed string (trailing spaces).  If string is empty, nil, or NSNull return string.
  */
 
 + (NSString *)stringByTrimmingTrailingWhitespaceCharactersInString:(NSString *)string;
@@ -295,7 +295,7 @@
  *
  *  @param string String to trim
  *
- *  @return Returns trimmed string (leading and trailing spaces).  If string is empty, nil, or [NSNull null] return string.
+ *  @return Returns trimmed string (leading and trailing spaces).  If string is empty, nil, or NSNull return string.
  */
 
 + (NSString *)stringByTrimmingLeadingAndTrailingWhitespaceCharactersInString:(NSString *)string;
